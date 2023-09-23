@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Bucket
+   uuid = "73E09233-3078-428B-9EDD-B54EF276D7B4"
+   type = "1"
+   version = "2.0">
+   <Breakpoints>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "D5FE4751-6EC8-49C9-B06D-B976980AA80E"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Xanadu Exercise/Data/NavigationRepository/NavigationRepositoryImpl.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "50"
+            endingLineNumber = "50"
+            landmarkName = "toNavigationItem()"
+            landmarkType = "7">
+            <Locations>
+               <Location
+                  uuid = "D5FE4751-6EC8-49C9-B06D-B976980AA80E - 3ee5f27c56ec6f42"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "Xanadu_Exercise.MetaTagDTO.toNavigationItem() -&gt; Xanadu_Exercise.NavigationItem"
+                  moduleName = "Xanadu Exercise"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/davide/Documents/Workspace/Xanadu%20Exercise/Xanadu%20Exercise/Data/NavigationRepository/NavigationRepositoryImpl.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "53"
+                  endingLineNumber = "53"
+                  offsetFromSymbolStart = "44">
+               </Location>
+               <Location
+                  uuid = "D5FE4751-6EC8-49C9-B06D-B976980AA80E - 90b73e75039be627"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "closure #1 (Xanadu_Exercise.MetaTagDTO) -&gt; Swift.Optional&lt;Xanadu_Exercise.NavigationItem&gt; in Xanadu_Exercise.MetaTagDTO.toNavigationItem() -&gt; Xanadu_Exercise.NavigationItem"
+                  moduleName = "Xanadu Exercise"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/davide/Documents/Workspace/Xanadu%20Exercise/Xanadu%20Exercise/Data/NavigationRepository/NavigationRepositoryImpl.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "53"
+                  endingLineNumber = "53"
+                  offsetFromSymbolStart = "48">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+   </Breakpoints>
+</Bucket>

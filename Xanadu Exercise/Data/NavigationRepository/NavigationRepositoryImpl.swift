@@ -10,7 +10,7 @@ import Combine
 
 class NavigationRepositoryImpl: NavigationRepository {
     
-    typealias NavigationResult = Result<[NavigationItem]?, NavigationRepositoryError>
+    typealias NavigationResult = Result<[NavigationItem]?, RESTError>
     
     private let navigationService: NavigationService
     private let navigationItems: CurrentValueSubject<NavigationResult, Never> = CurrentValueSubject(.success(nil))

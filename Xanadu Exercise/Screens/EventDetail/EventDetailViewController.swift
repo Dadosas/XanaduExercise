@@ -12,7 +12,7 @@ class EventDetailViewController: UIViewController {
     static func instance(navigationItem: NavigationItem) -> EventDetailViewController {
         let vc = UIStoryboard(name: "EventDetailViewController", bundle: nil)
             .instantiateInitialViewController() as! EventDetailViewController
-        vc.viewModel = EventDetailViewModelImpl(navigationItem: navigationItem)
+        vc.viewModel = EventDetailViewModelImpl(navigationItem: navigationItem, appDependencies: AppDelegate.getAppDependencies())
         return vc
     }
     

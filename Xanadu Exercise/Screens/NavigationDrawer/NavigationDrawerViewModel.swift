@@ -66,5 +66,6 @@ class NavigationDrawerViewModelImpl: NavigationDrawerViewModel {
     func retry() {
         guard case .error = state.value else { return }
         navigationRepository.requestNavigationItems()
+        state.send(.loading)
     }
 }

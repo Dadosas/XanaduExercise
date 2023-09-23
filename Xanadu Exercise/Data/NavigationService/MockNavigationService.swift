@@ -10,6 +10,8 @@ import Combine
 
 class MockNavigationService: NavigationService {
     
+    static var simulateErrorOnFirstCall = true
+    
     private let mockNavigationJSON = """
 [
 {
@@ -82,14 +84,21 @@ class MockNavigationService: NavigationService {
 """
     
     func getNavigationTree() -> Future<NavigationDTO, Error> {
-        return Future { promise in
+        return Future { [weak self] promise in
+            guard var mockNavigationJSON = self?.mockNavigationJSON else {
+                return promise(.failure(RESTError.loadingFailure))
+            }
+            if Self.simulateErrorOnFirstCall {
+                Self.simulateErrorOnFirstCall = false
+                mockNavigationJSON.insert(";", at: String.Index(utf16Offset: 123, in: mockNavigationJSON))
+            }
             print("Start timer")
             DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(500)) {
-                guard let data = self.mockNavigationJSON.data(using: .utf8) else {
-                    return promise(.failure(NavigationRepositoryError.loadingFailure))
+                guard let data = mockNavigationJSON.data(using: .utf8) else {
+                    return promise(.failure(RESTError.loadingFailure))
                 }
                 guard let mockNavigationDTO = try? JSONDecoder().decode(NavigationDTO.self, from: data) else {
-                    return promise(.failure(NavigationRepositoryError.parsingFailure))
+                    return promise(.failure(RESTError.parsingFailure))
                 }
                 print("Returning mock DTO")
                 promise(.success(mockNavigationDTO))

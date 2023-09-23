@@ -9,6 +9,6 @@ import Foundation
 import Combine
 
 protocol NavigationRepository {
-    func publishNavigationItems() -> AnyPublisher<Result<[NavigationItem]?, NavigationRepositoryError>, Never>
+    func publishNavigationItems() -> AnyPublisher<Result<[NavigationItem]?, RESTError>, Never>
     func requestNavigationItems()
 }

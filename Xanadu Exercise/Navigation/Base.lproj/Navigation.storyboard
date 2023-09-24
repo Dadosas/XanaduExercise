@@ -6,10 +6,10 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
-        <!--Navigation Controller-->
+        <!--Xanadu Navigation View Controller-->
         <scene sceneID="EkV-I9-hwW">
             <objects>
-                <navigationController id="KCQ-ad-RqN" sceneMemberID="viewController">
+                <navigationController id="KCQ-ad-RqN" customClass="XanaduNavigationViewController" customModule="Xanadu_Exercise" customModuleProvider="target" sceneMemberID="viewController">
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="f6W-wi-0CT">
                         <rect key="frame" x="0.0" y="59" width="393" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>

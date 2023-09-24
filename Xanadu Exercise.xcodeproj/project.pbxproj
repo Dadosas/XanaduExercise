@@ -38,6 +38,16 @@
 		6BC5BBDA2ABFAA990075D7C7 /* MatchEventsDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BC5BBD92ABFAA990075D7C7 /* MatchEventsDTO.swift */; };
 		6BC5BBDC2ABFAAC40075D7C7 /* MockMatchService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BC5BBDB2ABFAAC40075D7C7 /* MockMatchService.swift */; };
 		6BC5BBDF2ABFAC790075D7C7 /* RESTError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BC5BBDE2ABFAC790075D7C7 /* RESTError.swift */; };
+		6BC5BBE32ABFBEDA0075D7C7 /* EventRowTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BC5BBE12ABFBEDA0075D7C7 /* EventRowTableViewCell.swift */; };
+		6BC5BBE42ABFBEDA0075D7C7 /* EventRowTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6BC5BBE22ABFBEDA0075D7C7 /* EventRowTableViewCell.xib */; };
+		6BC5BBE72ABFBFBD0075D7C7 /* MarketRowTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BC5BBE52ABFBFBD0075D7C7 /* MarketRowTableViewCell.swift */; };
+		6BC5BBE82ABFBFBD0075D7C7 /* MarketRowTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6BC5BBE62ABFBFBD0075D7C7 /* MarketRowTableViewCell.xib */; };
+		6BC5BBEB2ABFBFCA0075D7C7 /* RunnerRowTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BC5BBE92ABFBFCA0075D7C7 /* RunnerRowTableViewCell.swift */; };
+		6BC5BBEC2ABFBFCA0075D7C7 /* RunnerRowTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6BC5BBEA2ABFBFCA0075D7C7 /* RunnerRowTableViewCell.xib */; };
+		6BC5BBEE2ABFC7930075D7C7 /* NavigationServiceImpl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BC5BBED2ABFC7930075D7C7 /* NavigationServiceImpl.swift */; };
+		6BC5BBF02AC05F890075D7C7 /* MatchServiceImpl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BC5BBEF2AC05F890075D7C7 /* MatchServiceImpl.swift */; };
+		6BC5BBF52AC060D30075D7C7 /* FutureUtility.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BC5BBF42AC060D30075D7C7 /* FutureUtility.swift */; };
+		6BC5BBF72AC062270075D7C7 /* URLUtility.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BC5BBF62AC062270075D7C7 /* URLUtility.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -93,6 +103,16 @@
 		6BC5BBD92ABFAA990075D7C7 /* MatchEventsDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MatchEventsDTO.swift; sourceTree = "<group>"; };
 		6BC5BBDB2ABFAAC40075D7C7 /* MockMatchService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockMatchService.swift; sourceTree = "<group>"; };
 		6BC5BBDE2ABFAC790075D7C7 /* RESTError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RESTError.swift; sourceTree = "<group>"; };
+		6BC5BBE12ABFBEDA0075D7C7 /* EventRowTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventRowTableViewCell.swift; sourceTree = "<group>"; };
+		6BC5BBE22ABFBEDA0075D7C7 /* EventRowTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = EventRowTableViewCell.xib; sourceTree = "<group>"; };
+		6BC5BBE52ABFBFBD0075D7C7 /* MarketRowTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MarketRowTableViewCell.swift; sourceTree = "<group>"; };
+		6BC5BBE62ABFBFBD0075D7C7 /* MarketRowTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MarketRowTableViewCell.xib; sourceTree = "<group>"; };
+		6BC5BBE92ABFBFCA0075D7C7 /* RunnerRowTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RunnerRowTableViewCell.swift; sourceTree = "<group>"; };
+		6BC5BBEA2ABFBFCA0075D7C7 /* RunnerRowTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = RunnerRowTableViewCell.xib; sourceTree = "<group>"; };
+		6BC5BBED2ABFC7930075D7C7 /* NavigationServiceImpl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigationServiceImpl.swift; sourceTree = "<group>"; };
+		6BC5BBEF2AC05F890075D7C7 /* MatchServiceImpl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MatchServiceImpl.swift; sourceTree = "<group>"; };
+		6BC5BBF42AC060D30075D7C7 /* FutureUtility.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FutureUtility.swift; sourceTree = "<group>"; };
+		6BC5BBF62AC062270075D7C7 /* URLUtility.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLUtility.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -234,6 +254,7 @@
 		6B88EA802ABEEA5A00FA671D /* Data */ = {
 			isa = PBXGroup;
 			children = (
+				6BC5BBF12AC05FD20075D7C7 /* ServiceUtility */,
 				6BC5BBD52ABFAA6A0075D7C7 /* MatchService */,
 				6BC5BBA12ABEEF6F0075D7C7 /* NavigationService */,
 				6B88EA812ABEEA6400FA671D /* NavigationRepository */,
@@ -254,6 +275,7 @@
 			children = (
 				6BC5BBA42ABEEFFC0075D7C7 /* DTO */,
 				6BC5BBB12ABF0A8C0075D7C7 /* MockNavigationService.swift */,
+				6BC5BBED2ABFC7930075D7C7 /* NavigationServiceImpl.swift */,
 			);
 			path = NavigationService;
 			sourceTree = "<group>";
@@ -278,6 +300,7 @@
 		6BC5BBB82ABF9DAF0075D7C7 /* EventDetail */ = {
 			isa = PBXGroup;
 			children = (
+				6BC5BBE02ABFBEC60075D7C7 /* Cell */,
 				6BC5BBB92ABF9DBD0075D7C7 /* EventDetailViewController.storyboard */,
 				6BC5BBBB2ABF9DCF0075D7C7 /* EventDetailViewController.swift */,
 				6BC5BBBD2ABF9E3C0075D7C7 /* EventDetailViewModel.swift */,
@@ -325,6 +348,7 @@
 			children = (
 				6BC5BBD62ABFAA710075D7C7 /* DTO */,
 				6BC5BBDB2ABFAAC40075D7C7 /* MockMatchService.swift */,
+				6BC5BBEF2AC05F890075D7C7 /* MatchServiceImpl.swift */,
 			);
 			path = MatchService;
 			sourceTree = "<group>";
@@ -343,6 +367,28 @@
 				6BC5BBDE2ABFAC790075D7C7 /* RESTError.swift */,
 			);
 			path = Model;
+			sourceTree = "<group>";
+		};
+		6BC5BBE02ABFBEC60075D7C7 /* Cell */ = {
+			isa = PBXGroup;
+			children = (
+				6BC5BBE12ABFBEDA0075D7C7 /* EventRowTableViewCell.swift */,
+				6BC5BBE22ABFBEDA0075D7C7 /* EventRowTableViewCell.xib */,
+				6BC5BBE52ABFBFBD0075D7C7 /* MarketRowTableViewCell.swift */,
+				6BC5BBE62ABFBFBD0075D7C7 /* MarketRowTableViewCell.xib */,
+				6BC5BBE92ABFBFCA0075D7C7 /* RunnerRowTableViewCell.swift */,
+				6BC5BBEA2ABFBFCA0075D7C7 /* RunnerRowTableViewCell.xib */,
+			);
+			path = Cell;
+			sourceTree = "<group>";
+		};
+		6BC5BBF12AC05FD20075D7C7 /* ServiceUtility */ = {
+			isa = PBXGroup;
+			children = (
+				6BC5BBF42AC060D30075D7C7 /* FutureUtility.swift */,
+				6BC5BBF62AC062270075D7C7 /* URLUtility.swift */,
+			);
+			path = ServiceUtility;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -450,12 +496,15 @@
 			buildActionMask = 2147483647;
 			files = (
 				6BC5BBAC2ABEFA110075D7C7 /* NavigationDrawerViewController.storyboard in Resources */,
+				6BC5BBE82ABFBFBD0075D7C7 /* MarketRowTableViewCell.xib in Resources */,
 				6B88EA752ABEE58200FA671D /* WelcomeViewController.storyboard in Resources */,
 				6BC5BBB72ABF49310075D7C7 /* NavigationDrawerTableViewCell.xib in Resources */,
 				6B88EA512ABEE3B800FA671D /* LaunchScreen.storyboard in Resources */,
 				6B88EA4E2ABEE3B800FA671D /* Assets.xcassets in Resources */,
+				6BC5BBEC2ABFBFCA0075D7C7 /* RunnerRowTableViewCell.xib in Resources */,
 				6BC5BBBA2ABF9DBD0075D7C7 /* EventDetailViewController.storyboard in Resources */,
 				6B88EA4C2ABEE3B700FA671D /* Navigation.storyboard in Resources */,
+				6BC5BBE42ABFBEDA0075D7C7 /* EventRowTableViewCell.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -482,15 +531,21 @@
 			files = (
 				6BC5BBD42ABFA8E30075D7C7 /* MatchRunner.swift in Sources */,
 				6BC5BBAA2ABEF92A0075D7C7 /* WelcomeViewController.swift in Sources */,
+				6BC5BBF72AC062270075D7C7 /* URLUtility.swift in Sources */,
 				6BC5BBD22ABFA8B50075D7C7 /* MatchMarket.swift in Sources */,
 				6BC5BBA32ABEEF780075D7C7 /* NavigationService.swift in Sources */,
 				6BC5BBA82ABEF00D0075D7C7 /* NavigationDTO.swift in Sources */,
 				6BC5BBD02ABFA8600075D7C7 /* MatchEvent.swift in Sources */,
 				6BC5BBDF2ABFAC790075D7C7 /* RESTError.swift in Sources */,
+				6BC5BBF02AC05F890075D7C7 /* MatchServiceImpl.swift in Sources */,
 				6BC5BBB62ABF49310075D7C7 /* NavigationDrawerTableViewCell.swift in Sources */,
 				6BC5BBBE2ABF9E3C0075D7C7 /* EventDetailViewModel.swift in Sources */,
+				6BC5BBE72ABFBFBD0075D7C7 /* MarketRowTableViewCell.swift in Sources */,
 				6BC5BBAE2ABEFA1B0075D7C7 /* NavigationDrawerViewController.swift in Sources */,
+				6BC5BBF52AC060D30075D7C7 /* FutureUtility.swift in Sources */,
 				6B88EA7F2ABEEA4800FA671D /* NavigationRepositoryImpl.swift in Sources */,
+				6BC5BBE32ABFBEDA0075D7C7 /* EventRowTableViewCell.swift in Sources */,
+				6BC5BBEE2ABFC7930075D7C7 /* NavigationServiceImpl.swift in Sources */,
 				6BC5BBDC2ABFAAC40075D7C7 /* MockMatchService.swift in Sources */,
 				6BC5BBBC2ABF9DCF0075D7C7 /* EventDetailViewController.swift in Sources */,
 				6B88EA7D2ABEE63500FA671D /* NavigationRepository.swift in Sources */,
@@ -498,6 +553,7 @@
 				6BC5BBCD2ABFA7E40075D7C7 /* MatchService.swift in Sources */,
 				6BC5BBB22ABF0A8C0075D7C7 /* MockNavigationService.swift in Sources */,
 				6BC5BBDA2ABFAA990075D7C7 /* MatchEventsDTO.swift in Sources */,
+				6BC5BBEB2ABFBFCA0075D7C7 /* RunnerRowTableViewCell.swift in Sources */,
 				6B88EA452ABEE3B700FA671D /* AppDelegate.swift in Sources */,
 				6BC5BBC12ABF9E840075D7C7 /* NavigationItem.swift in Sources */,
 				6B88EA472ABEE3B700FA671D /* SceneDelegate.swift in Sources */,

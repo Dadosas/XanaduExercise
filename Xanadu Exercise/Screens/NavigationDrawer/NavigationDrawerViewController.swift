@@ -61,7 +61,7 @@ class NavigationDrawerViewController: UIViewController {
         tableView.delegate = dataSource
         tableView.dataSource = dataSource
         
-        viewModel.publishState()
+        viewModel.publishNavigationDrawerState()
             .sink { [weak self] state in
                 guard let this = self else { return }
                 switch state {

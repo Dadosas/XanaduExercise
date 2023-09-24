@@ -13,7 +13,7 @@ class NavigationRepositoryImpl: NavigationRepository {
     typealias NavigationResult = Result<[NavigationItem]?, RESTError>
     
     private let navigationService: NavigationService
-    private let navigationItems: CurrentValueSubject<NavigationResult, Never> = CurrentValueSubject(.success(nil))
+    private let navigationItems: CurrentValueSubject<NavigationResult, Never> = .init(.success(nil))
     
     private var cancellables: [AnyCancellable] = []
     
@@ -37,15 +37,17 @@ class NavigationRepositoryImpl: NavigationRepository {
     }
 }
 
-extension NavigationDTO {
+private extension NavigationDTO {
     func toNavigationItems() -> [NavigationItem]? {
         guard let sportMetaTag = self.first else { return nil }
         let rootNavigationItem = sportMetaTag.toNavigationItem()
-        return rootNavigationItem.getSelfAndAllChildren()
+        return sportMetaTag.metaTags
+            .map { $0.toNavigationItem() }
+            .flatMap({ $0.getSelfAndAllChildren() })
     }
 }
 
-extension MetaTagDTO {
+private extension MetaTagDTO {
     func toNavigationItem() -> NavigationItem {
         return NavigationItem(name: self.name, tag: self.urlName, children: metaTags.compactMap { $0.toNavigationItem() })
     }

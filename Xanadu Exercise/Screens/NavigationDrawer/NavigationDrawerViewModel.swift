@@ -9,7 +9,7 @@ import Foundation
 import Combine
 
 protocol NavigationDrawerViewModel {
-    func publishState() -> AnyPublisher<NavigationDrawerState, Never>
+    func publishNavigationDrawerState() -> AnyPublisher<NavigationDrawerState, Never>
     func canNavigate(to navigationItem: NavigationItem) -> Bool
     func retry()
 }
@@ -23,7 +23,7 @@ enum NavigationDrawerState {
 class NavigationDrawerViewModelImpl: NavigationDrawerViewModel {
     
     private let navigationRepository: NavigationRepository
-    private let state: CurrentValueSubject<NavigationDrawerState, Never> = CurrentValueSubject(.loading)
+    private let state: CurrentValueSubject<NavigationDrawerState, Never> = .init(.loading)
     
     private var cancellables: [AnyCancellable] = []
     
@@ -35,27 +35,23 @@ class NavigationDrawerViewModelImpl: NavigationDrawerViewModel {
         self.init(navigationRepository: appDependencies.navigationRepository)
         navigationRepository.publishNavigationItems()
             .receive(on: DispatchQueue.main)
-            .map({ result in
+            .map({ result -> NavigationDrawerState in
                 switch result {
                 case .success(let items):
                     if let items = items {
-                        return NavigationDrawerState.loaded(navigationItems: items)
+                        return .loaded(navigationItems: items)
                     } else {
-                        return NavigationDrawerState.loading
+                        return .loading
                     }
                 case .failure:
-                    return NavigationDrawerState.error
+                    return .error
                 }
             })
             .sink(receiveValue: { [weak state] navigationDrawerState in state?.send(navigationDrawerState) })
             .store(in: &cancellables)
     }
-    
-    func requestDataFromREST() {
-        navigationRepository.requestNavigationItems()
-    }
-    
-    func publishState() -> AnyPublisher<NavigationDrawerState, Never> {
+
+    func publishNavigationDrawerState() -> AnyPublisher<NavigationDrawerState, Never> {
         return state.eraseToAnyPublisher()
     }
     
@@ -67,5 +63,9 @@ class NavigationDrawerViewModelImpl: NavigationDrawerViewModel {
         guard case .error = state.value else { return }
         navigationRepository.requestNavigationItems()
         state.send(.loading)
+    }
+    
+    private func requestDataFromREST() {
+        navigationRepository.requestNavigationItems()
     }
 }

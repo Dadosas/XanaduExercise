@@ -21,10 +21,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         AppDelegate.instance = self
         
-        let navigationServiceImpl: NavigationService = MockNavigationService()
+        let navigationServiceImpl: NavigationService = NavigationServiceImpl()
         let navigationRepository: NavigationRepository = NavigationRepositoryImpl(navigationService: navigationServiceImpl)
         
-        let matchService: MatchService = MockMatchService()
+        let matchService: MatchService = MatchServiceImpl()
         
         appDependencies = AppDependenciesImpl(navigationRepository: navigationRepository,
                                               matchService: matchService)

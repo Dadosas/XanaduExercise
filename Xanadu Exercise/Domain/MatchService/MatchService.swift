@@ -9,5 +9,5 @@ import Foundation
 import Combine
 
 protocol MatchService {
-    func getEvents(queryTag: String) -> Future<[MatchEvent], Error>
+    func getEvents(queryTag: String) -> AnyPublisher<[MatchEvent], Error>
 }

@@ -89,11 +89,11 @@ class MockMatchService: MatchService {
                                 "side": "lay"
                             }
                         ],
-                        "name ": "England"
+                        "name": "England"
                     },
                     {
                         "withdrawn": false,
-                        "prices ": [{
+                        "prices": [{
                                 "odds": 7.10000,
                                 "side": "back"
                             },
@@ -111,7 +111,7 @@ class MockMatchService: MatchService {
 }
 """
     
-    func getEvents(queryTag: String) -> Future<[MatchEvent], Error> {
+    func getEvents(queryTag: String) -> AnyPublisher<[MatchEvent], Error> {
         return Future { [weak self] promise in
             print("Start timer")
             DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(500)) {
@@ -128,39 +128,6 @@ class MockMatchService: MatchService {
                 promise(.success(mockMatchEvents))
             }
         }
-    }
-}
-
-extension MatchEventsDTO {
-    func toMatchEvents() throws -> [MatchEvent] {
-        return try events.map { try $0.toMatchEvent() }
-    }
-}
-
-extension MatchEventDTO {
-    func toMatchEvent() throws -> MatchEvent {
-        guard let startDate = ISO8601DateFormatter().date(from: startTimestamp) else {
-            throw RESTError.parsingFailure
-        }
-        return MatchEvent(name: self.name,
-                          startDate: startDate,
-                          markets: self.markets.map({ $0.toMatchMarket() }))
-    }
-}
-
-extension MatchMarketDTO {
-    func toMatchMarket() -> MatchMarket {
-        return MatchMarket(name: self.name,
-                           runners: self.runners.map({ $0.toMatchRunner() }))
-    }
-}
-
-extension MatchRunnerDTO {
-    func toMatchRunner() -> MatchRunner {
-        let backOdds = prices.first { $0.side == .back }?.odds
-        let layOdds = prices.first { $0.side == .lay }?.odds
-        return MatchRunner(name: self.name,
-                           backOdds: backOdds,
-                           layOdds: layOdds)
+        .eraseToAnyPublisher()
     }
 }

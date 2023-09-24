@@ -9,5 +9,5 @@ import Foundation
 import Combine
 
 protocol NavigationService {
-    func getNavigationTree() -> Future<NavigationDTO, Error>
+    func getNavigationTree() -> AnyPublisher<NavigationDTO, Error>
 }

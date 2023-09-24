@@ -1,0 +1,24 @@
+//
+//  EventRowTableViewCell.swift
+//  Xanadu Exercise
+//
+//  Created by Davide Dallan on 24/09/23.
+//
+
+import UIKit
+
+class EventRowTableViewCell: UITableViewCell {
+
+    @IBOutlet weak var nameLabel: UILabel!
+    @IBOutlet weak var dateLabel: UILabel!
+    
+    override func awakeFromNib() {
+        super.awakeFromNib()
+        separatorInset = .zero
+    }
+    
+    func set(name: String, dateLabel: String) {
+        nameLabel.text = name
+        self.dateLabel.text = dateLabel
+    }
+}

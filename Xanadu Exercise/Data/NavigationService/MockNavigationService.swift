@@ -10,7 +10,7 @@ import Combine
 
 class MockNavigationService: NavigationService {
     
-    static var simulateErrorOnFirstCall = true
+    static var simulateErrorOnFirstCall = false
     
     private let mockNavigationJSON = """
 [
@@ -83,7 +83,7 @@ class MockNavigationService: NavigationService {
 ]
 """
     
-    func getNavigationTree() -> Future<NavigationDTO, Error> {
+    func getNavigationTree() -> AnyPublisher<NavigationDTO, Error> {
         return Future { [weak self] promise in
             guard var mockNavigationJSON = self?.mockNavigationJSON else {
                 return promise(.failure(RESTError.loadingFailure))
@@ -104,5 +104,6 @@ class MockNavigationService: NavigationService {
                 promise(.success(mockNavigationDTO))
             }
         }
+        .eraseToAnyPublisher()
     }
 }

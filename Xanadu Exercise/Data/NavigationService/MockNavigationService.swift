@@ -83,7 +83,7 @@ class MockNavigationService: NavigationService {
 ]
 """
     
-    func getNavigationTree() -> AnyPublisher<NavigationDTO, Error> {
+    func getNavigationTree() -> AnyPublisher<[NavigationItem], Error> {
         return Future { [weak self] promise in
             guard var mockNavigationJSON = self?.mockNavigationJSON else {
                 return promise(.failure(RESTError.loadingFailure))
@@ -100,8 +100,11 @@ class MockNavigationService: NavigationService {
                 guard let mockNavigationDTO = try? JSONDecoder().decode(NavigationDTO.self, from: data) else {
                     return promise(.failure(RESTError.parsingFailure))
                 }
+                guard let navigationItems = mockNavigationDTO.toNavigationItems() else {
+                    return promise(.failure(RESTError.parsingFailure))
+                }
                 print("Returning mock DTO")
-                promise(.success(mockNavigationDTO))
+                promise(.success(navigationItems))
             }
         }
         .eraseToAnyPublisher()

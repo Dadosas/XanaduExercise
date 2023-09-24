@@ -30,25 +30,9 @@ class NavigationRepositoryImpl: NavigationRepository {
         navigationService
             .getNavigationTree()
             .subscribe(on: DispatchQueue.global(qos: .userInitiated))
-            .map { (navigationDTO: NavigationDTO?) in NavigationResult.success(navigationDTO?.toNavigationItems()) }
+            .map({ navigationItems -> NavigationResult in .success(navigationItems) })
             .replaceError(with: .failure(.loadingFailure))
             .sink { [weak navigationItems] result in navigationItems?.send(result) }
             .store(in: &cancellables)
-    }
-}
-
-private extension NavigationDTO {
-    func toNavigationItems() -> [NavigationItem]? {
-        guard let sportMetaTag = self.first else { return nil }
-        let rootNavigationItem = sportMetaTag.toNavigationItem()
-        return sportMetaTag.metaTags
-            .map { $0.toNavigationItem() }
-            .flatMap({ $0.getSelfAndAllChildren() })
-    }
-}
-
-private extension MetaTagDTO {
-    func toNavigationItem() -> NavigationItem {
-        return NavigationItem(name: self.name, tag: self.urlName, children: metaTags.compactMap { $0.toNavigationItem() })
     }
 }

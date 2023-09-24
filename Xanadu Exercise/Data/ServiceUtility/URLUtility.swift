@@ -24,6 +24,7 @@ extension URL {
         urlRequest.addValue("application/json; charset=utf-8", forHTTPHeaderField: "Accept")
         urlRequest.addValue("application/json; charset=utf-8", forHTTPHeaderField: "Content-type")
         urlRequest.addValue("mb-client-type=mb-mobile-ios", forHTTPHeaderField: "Cookie")
+        urlRequest.timeoutInterval = 5
         return urlRequest
     }
 }

@@ -12,7 +12,7 @@ class NavigationServiceImpl: NavigationService {
     
     private var cancellables: [AnyCancellable] = []
     
-    func getNavigationTree() -> AnyPublisher<NavigationDTO, Error> {
+    func getNavigationTree() -> AnyPublisher<[NavigationItem], Error> {
         let url = URL(string: "https://www.matchbook.com/edge/rest/navigation",
                       urlQueryItems: [URLQueryItem(name: "include-tags", value: "\(true)")])
         let urlRequest = url?.toXanaduURLRequest()
@@ -20,6 +20,12 @@ class NavigationServiceImpl: NavigationService {
             guard let this = self else { return }
             publisher.store(in: &this.cancellables)
         }
+        .tryMap({ (navigationDTO: NavigationDTO?) -> [NavigationItem] in
+            guard let navigationItems = navigationDTO?.toNavigationItems() else {
+                throw RESTError.loadingFailure
+            }
+            return navigationItems
+        })
         .eraseToAnyPublisher()
     }
 }

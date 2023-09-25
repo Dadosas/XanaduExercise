@@ -28,12 +28,14 @@ final class NavigationRepositoryImplTest: XCTestCase {
         navigationRepositoryImpl.publishNavigationItemsResult()
             .sink(receiveValue: { result in
                 switch result {
-                case .success:
-                    isExpectedItemsFound = true
+                case .success(let items):
+                    if items?.isEmpty == false {
+                        isExpectedItemsFound = true
+                        expectation.fulfill()
+                    }
                 case .failure:
-                    isExpectedItemsFound = false
+                    break
                 }
-                expectation.fulfill()
             })
             .store(in: &cancellables)
         
@@ -52,11 +54,11 @@ final class NavigationRepositoryImplTest: XCTestCase {
             .sink(receiveValue: { result in
                 switch result {
                 case .success:
-                    isExpectedErrorFound = false
+                    break
                 case .failure:
                     isExpectedErrorFound = true
+                    expectation.fulfill()
                 }
-                expectation.fulfill()
             })
             .store(in: &cancellables)
         

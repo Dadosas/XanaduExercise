@@ -25,7 +25,7 @@ final class NavigationRepositoryImplTest: XCTestCase {
         var isExpectedItemsFound = false
         let expectation = self.expectation(description: "NavigationRepository exposes parsingFailure RESTError")
         
-        navigationRepositoryImpl.publishNavigationItems()
+        navigationRepositoryImpl.publishNavigationItemsResult()
             .sink(receiveValue: { result in
                 switch result {
                 case .success:
@@ -48,18 +48,13 @@ final class NavigationRepositoryImplTest: XCTestCase {
         var isExpectedErrorFound = false
         let expectation = self.expectation(description: "NavigationRepository exposes parsingFailure RESTError")
         
-        navigationRepositoryImpl.publishNavigationItems()
+        navigationRepositoryImpl.publishNavigationItemsResult()
             .sink(receiveValue: { result in
                 switch result {
                 case .success:
                     isExpectedErrorFound = false
-                case .failure(let error):
-                    switch error {
-                    case RESTError.loadingFailure:
-                        isExpectedErrorFound = true
-                    default:
-                        isExpectedErrorFound = false
-                    }
+                case .failure:
+                    isExpectedErrorFound = true
                 }
                 expectation.fulfill()
             })
@@ -74,8 +69,8 @@ private struct MockTestNavigationService: NavigationService {
     
     let items: [NavigationItem]
     
-    func getNavigationTree() -> AnyPublisher<[NavigationItem], RESTError> {
-        return Future<[NavigationItem], RESTError> { promise in
+    func getNavigationTree() -> AnyPublisher<[NavigationItem], XanaduError> {
+        return Future<[NavigationItem], XanaduError> { promise in
             promise(.success(items))
         }.eraseToAnyPublisher()
     }
@@ -83,9 +78,9 @@ private struct MockTestNavigationService: NavigationService {
 
 private struct FailureTestNavigationService: NavigationService {
     
-    func getNavigationTree() -> AnyPublisher<[NavigationItem], RESTError> {
-        return Future<[NavigationItem], RESTError> { promise in
-            promise(.failure(RESTError.loadingFailure))
+    func getNavigationTree() -> AnyPublisher<[NavigationItem], XanaduError> {
+        return Future<[NavigationItem], XanaduError> { promise in
+            promise(.failure(XanaduError.restError))
         }.eraseToAnyPublisher()
     }
 }

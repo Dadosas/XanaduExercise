@@ -10,7 +10,6 @@ import Foundation
 extension NavigationDTO {
     func toNavigationItems() -> [NavigationItem]? {
         guard let sportMetaTag = self.first else { return nil }
-        let rootNavigationItem = sportMetaTag.toNavigationItem()
         return sportMetaTag.metaTags
             .map { $0.toNavigationItem() }
             .flatMap({ $0.getSelfAndAllChildren() })

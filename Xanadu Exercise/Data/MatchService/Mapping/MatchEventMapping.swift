@@ -19,7 +19,7 @@ private extension MatchEventDTO {
         // allow millis in timestamp
         dateFormatter.formatOptions =  [.withInternetDateTime, .withFractionalSeconds]
         guard let startDate = dateFormatter.date(from: startTimestamp) else {
-            throw RESTError.parsingFailure
+            throw XanaduError.restError
         }
         return MatchEvent(name: self.name,
                           startDate: startDate,

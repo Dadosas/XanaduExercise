@@ -10,7 +10,7 @@ import Combine
 
 protocol NavigationDrawerViewModel {
     func publishNavigationDrawerState() -> AnyPublisher<NavigationDrawerState, Never>
-    func canNavigate(to navigationItem: NavigationItem) -> Bool
+    func getEventDetailViewModelIfNavigable(navigationItem: NavigationItem) -> EventDetailViewModel?
     func retry()
 }
 
@@ -33,7 +33,7 @@ class NavigationDrawerViewModelImpl: NavigationDrawerViewModel {
     
     convenience init(appDependencies: AppDependencies) {
         self.init(navigationRepository: appDependencies.navigationRepository)
-        navigationRepository.publishNavigationItems()
+        navigationRepository.publishNavigationItemsResult()
             .receive(on: DispatchQueue.main)
             .map({ result -> NavigationDrawerState in
                 switch result {
@@ -55,17 +55,18 @@ class NavigationDrawerViewModelImpl: NavigationDrawerViewModel {
         return state.eraseToAnyPublisher()
     }
     
-    func canNavigate(to navigationItem: NavigationItem) -> Bool {
-        return navigationItem.isAccessibleEvent()
+    func getEventDetailViewModelIfNavigable(navigationItem: NavigationItem) -> EventDetailViewModel? {
+        guard navigationItem.isAccessibleEvent() else { return nil }
+        return EventDetailViewModelImpl(navigationItem: navigationItem, appDependencies: AppDelegate.getAppDependencies())
     }
     
     func retry() {
         guard case .error = state.value else { return }
-        navigationRepository.requestNavigationItems()
+        navigationRepository.requestNavigationItemsResult()
         state.send(.loading)
     }
     
     private func requestDataFromREST() {
-        navigationRepository.requestNavigationItems()
+        navigationRepository.requestNavigationItemsResult()
     }
 }

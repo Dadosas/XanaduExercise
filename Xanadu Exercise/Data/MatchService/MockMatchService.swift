@@ -111,21 +111,17 @@ class MockMatchService: MatchService {
 }
 """
     
-    func getEvents(queryTag: String) -> AnyPublisher<[MatchEvent], Error> {
+    func getEvents(queryTag: String) -> AnyPublisher<[MatchEvent], XanaduError> {
         return Future { [weak self] promise in
-            print("Start timer")
             DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(500)) {
-                guard let data = self?.mockEventsJSON.data(using: .utf8) else {
-                    return promise(.failure(RESTError.loadingFailure))
+                guard
+                    let data = self?.mockEventsJSON.data(using: .utf8),
+                    let mockEventsDTO = try? JSONDecoder().decode(MatchEventsDTO.self, from: data),
+                    let matchEvents = try? mockEventsDTO.toMatchEvents()
+                else {
+                    return promise(.failure(.restError))
                 }
-                guard let mockEventsDTO = try? JSONDecoder().decode(MatchEventsDTO.self, from: data) else {
-                    return promise(.failure(RESTError.parsingFailure))
-                }
-                guard let mockMatchEvents = try? mockEventsDTO.toMatchEvents() else {
-                    return promise(.failure(RESTError.parsingFailure))
-                }
-                print("Returning mock data")
-                promise(.success(mockMatchEvents))
+                promise(.success(matchEvents))
             }
         }
         .eraseToAnyPublisher()

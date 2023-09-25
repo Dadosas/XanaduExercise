@@ -10,11 +10,10 @@ import Combine
 
 class EventDetailViewController: UIViewController {
 
-    static func instance(navigationItem: NavigationItem) -> EventDetailViewController {
-        let vc = UIStoryboard(name: "EventDetailViewController", bundle: nil)
-            .instantiateInitialViewController() as! EventDetailViewController
-        vc.viewModel = EventDetailViewModelImpl(navigationItem: navigationItem, appDependencies: AppDelegate.getAppDependencies())
-        return vc
+    static func instance(viewModel: EventDetailViewModel) -> EventDetailViewController {
+        return UIStoryboard(name: "EventDetailViewController", bundle: nil).instantiateInitialViewController { coder in
+            EventDetailViewController(coder: coder, viewModel: viewModel)
+        }!
     }
     
     private var viewModel: EventDetailViewModel!
@@ -23,13 +22,19 @@ class EventDetailViewController: UIViewController {
     
     @IBOutlet weak var tableView: UITableView!
     
-    @IBOutlet weak var errorContainer: UIView!
-    @IBOutlet weak var errorLabel: UILabel!
-    @IBOutlet weak var retryButton: UIButton!
+    @IBOutlet weak var errorView: ErrorView!
     
-    @IBOutlet weak var loadingContainer: UIView!
-    @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
-    @IBOutlet weak var loadingLabel: UILabel!
+    @IBOutlet weak var loadingView: LoadingView!
+    
+    required init?(coder: NSCoder, viewModel: EventDetailViewModel) {
+        self.viewModel = viewModel
+        super.init(coder: coder)
+    }
+    
+    @available(*, unavailable, renamed: "init(coder:viewModel:)")
+    required init?(coder: NSCoder) {
+        fatalError("Invalid init")
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -37,12 +42,7 @@ class EventDetailViewController: UIViewController {
         navigationItem.title = viewModel.navigationItem.name
         navigationItem.hidesBackButton = false
         
-        loadingLabel.text = "Loading..."
-        loadingLabel.textAlignment = .center
- 
-        errorLabel.text = "An error has occurred, please retry..."
-        retryButton.setTitle("Retry", for: UIControl.State())
-        retryButton.addTarget(self, action: #selector(didTapOnRetryButton), for: .touchUpInside)
+        errorView.onRetry = viewModel.retry
         
         tableView.register(UINib(nibName: "EventRowTableViewCell", bundle: nil), forCellReuseIdentifier: EventRowTableViewCell.description())
         tableView.register(UINib(nibName: "MarketRowTableViewCell", bundle: nil), forCellReuseIdentifier: MarketRowTableViewCell.description())
@@ -57,32 +57,25 @@ class EventDetailViewController: UIViewController {
                 case .loading:
                     this.tableView.isHidden = true
                     
-                    this.loadingContainer.isHidden = false
-                    this.activityIndicator.startAnimating()
+                    this.loadingView.isHidden = false
                     
-                    this.errorContainer.isHidden = true
+                    this.errorView.isHidden = true
                 case .loaded(let rows):
                     this.tableView.isHidden = false
                     this.dataSource.reload(items: rows, tableView: this.tableView)
                     
-                    this.loadingContainer.isHidden = true
-                    this.activityIndicator.stopAnimating()
+                    this.loadingView.isHidden = true
                     
-                    this.errorContainer.isHidden = true
+                    this.errorView.isHidden = true
                 case .error:
                     this.tableView.isHidden = true
                     
-                    this.loadingContainer.isHidden = true
-                    this.activityIndicator.stopAnimating()
+                    this.loadingView.isHidden = true
                     
-                    this.errorContainer.isHidden = false
+                    this.errorView.isHidden = false
                 }
             }
             .store(in: &cancellables)
-    }
-    
-    @IBAction func didTapOnRetryButton() {
-        viewModel.retry()
     }
 }
 
@@ -108,7 +101,7 @@ class EventDetailDataSource: NSObject, UITableViewDataSource {
         switch item {
         case .event(let name, let dateLabel):
             let cell = tableView.dequeueReusableCell(withIdentifier: EventRowTableViewCell.description(), for: indexPath) as! EventRowTableViewCell
-            cell.set(name: name, dateLabel: dateLabel)
+            cell.set(name: name, dateText: dateLabel)
             return cell
         case .market(let name):
             let cell = tableView.dequeueReusableCell(withIdentifier: MarketRowTableViewCell.description(), for: indexPath) as! MarketRowTableViewCell
@@ -116,7 +109,7 @@ class EventDetailDataSource: NSObject, UITableViewDataSource {
             return cell
         case .runner(let name, let backOddsLabel, let layOddsLabel):
             let cell = tableView.dequeueReusableCell(withIdentifier: RunnerRowTableViewCell.description(), for: indexPath) as! RunnerRowTableViewCell
-            cell.set(name: name, backOddsLabel: backOddsLabel, layOddsLabel: layOddsLabel)
+            cell.set(name: name, backOddsText: backOddsLabel, layOddsText: layOddsLabel)
             return cell
         }
     }

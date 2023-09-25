@@ -12,19 +12,22 @@ class NavigationServiceImpl: NavigationService {
     
     private var cancellables: [AnyCancellable] = []
     
-    func getNavigationTree() -> AnyPublisher<[NavigationItem], Error> {
+    func getNavigationTree() -> AnyPublisher<[NavigationItem], XanaduError> {
         let url = URL(string: "https://www.matchbook.com/edge/rest/navigation",
                       urlQueryItems: [URLQueryItem(name: "include-tags", value: "\(true)")])
         let urlRequest = url?.toXanaduURLRequest()
-        return Future<NavigationDTO, Error>.startURLRequest(urlRequest: urlRequest) { [weak self] publisher in
+        return Future<NavigationDTO, XanaduError>.startURLRequest(urlRequest: urlRequest) { [weak self] publisher in
             guard let this = self else { return }
             publisher.store(in: &this.cancellables)
         }
-        .tryMap({ (navigationDTO: NavigationDTO?) -> [NavigationItem] in
-            guard let navigationItems = navigationDTO?.toNavigationItems() else {
-                throw RESTError.loadingFailure
+        .flatMap({ (navigationDTO: NavigationDTO) -> AnyPublisher<[NavigationItem], XanaduError> in
+            guard let navigationItems = navigationDTO.toNavigationItems() else {
+                return Fail(error: XanaduError.restError)
+                    .eraseToAnyPublisher()
             }
-            return navigationItems
+            return Just(navigationItems)
+                .setFailureType(to: XanaduError.self)
+                .eraseToAnyPublisher()
         })
         .eraseToAnyPublisher()
     }

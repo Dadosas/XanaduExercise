@@ -42,11 +42,8 @@ class EventDetailViewModelImpl: EventDetailViewModel {
         self.matchService = matchService
         requestDataFromREST()
         
-        // how does this work?
-        let publisher = Timer.TimerPublisher(interval: 5, runLoop: RunLoop.main, mode: .default)
-        publisher
-            .connect()
-        publisher
+        Timer.TimerPublisher(interval: 5, runLoop: RunLoop.main, mode: .default)
+            .autoconnect()
             .sink { [weak self] _ in
                 print("Polling time!")
                 self?.requestDataFromREST()

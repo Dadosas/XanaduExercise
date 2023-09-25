@@ -9,5 +9,5 @@ import Foundation
 import Combine
 
 protocol NavigationService {
-    func getNavigationTree() -> AnyPublisher<[NavigationItem], Error>
+    func getNavigationTree() -> AnyPublisher<[NavigationItem], XanaduError>
 }

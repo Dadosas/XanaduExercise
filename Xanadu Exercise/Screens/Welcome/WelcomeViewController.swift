@@ -23,7 +23,8 @@ class WelcomeViewController: UIViewController {
     }
     
     @IBAction func didTapOnMenuBarButtonItem() {
-        let navigationDrawerViewController = NavigationDrawerViewController.instance()
+        let viewModel = NavigationDrawerViewModelImpl(appDependencies: AppDelegate.getAppDependencies())
+        let navigationDrawerViewController = NavigationDrawerViewController.instance(viewModel: viewModel)
         navigationController?.pushViewController(navigationDrawerViewController, animated: true)
     }
 }

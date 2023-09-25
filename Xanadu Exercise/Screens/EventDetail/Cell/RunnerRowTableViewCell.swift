@@ -28,10 +28,10 @@ class RunnerRowTableViewCell: UITableViewCell {
     }
     
     func set(name: String,
-             backOddsLabel: String,
-             layOddsLabel: String) {
+             backOddsText: String,
+             layOddsText: String) {
         nameLabel.text = name
-        self.backOddsLabel.text = backOddsLabel
-        self.layOddsLabel.text = layOddsLabel
+        self.backOddsLabel.text = backOddsText
+        self.layOddsLabel.text = layOddsText
     }
 }

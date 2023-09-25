@@ -12,7 +12,7 @@ class MatchServiceImpl: MatchService {
     
     private var cancellables: [AnyCancellable] = []
     
-    func getEvents(queryTag: String) -> AnyPublisher<[MatchEvent], Error> {
+    func getEvents(queryTag: String) -> AnyPublisher<[MatchEvent], XanaduError> {
         let urlQueryParameters = [
             URLQueryItem(name: "language", value: "en"),
             URLQueryItem(name: "currency", value: "EUR"),
@@ -27,11 +27,12 @@ class MatchServiceImpl: MatchService {
         ]
         let url = URL(string: "https://www.matchbook.com/edge/rest/events", urlQueryItems: urlQueryParameters)
         let urlRequest = url?.toXanaduURLRequest()
-        return Future<MatchEventsDTO, Error>.startURLRequest(urlRequest: urlRequest) { [weak self] publisher in
+        return Future<MatchEventsDTO, XanaduError>.startURLRequest(urlRequest: urlRequest) { [weak self] publisher in
             guard let this = self else { return }
             publisher.store(in: &this.cancellables)
         }
         .tryMap({ (matchEventsDTO: MatchEventsDTO) -> [MatchEvent] in try matchEventsDTO.toMatchEvents() })
+        .mapError({ _ in XanaduError.restError })
         .eraseToAnyPublisher()
     }
 }

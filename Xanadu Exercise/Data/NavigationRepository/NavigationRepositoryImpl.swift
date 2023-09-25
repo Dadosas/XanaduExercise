@@ -10,29 +10,29 @@ import Combine
 
 class NavigationRepositoryImpl: NavigationRepository {
     
-    typealias NavigationResult = Result<[NavigationItem]?, RESTError>
+    typealias NavigationResult = Result<[NavigationItem]?, XanaduError>
     
     private let navigationService: NavigationService
-    private let navigationItems: CurrentValueSubject<NavigationResult, Never> = .init(.success(nil))
+    private let navigationItemsResult: CurrentValueSubject<NavigationResult, Never> = .init(.success(nil))
     
     private var cancellables: [AnyCancellable] = []
     
     init(navigationService: NavigationService) {
         self.navigationService = navigationService
-        requestNavigationItems()
+        requestNavigationItemsResult()
     }
     
-    func publishNavigationItems() -> AnyPublisher<NavigationResult, Never> {
-        return navigationItems.eraseToAnyPublisher()
+    func publishNavigationItemsResult() -> AnyPublisher<NavigationResult, Never> {
+        return navigationItemsResult.eraseToAnyPublisher()
     }
     
-    func requestNavigationItems() {
+    func requestNavigationItemsResult() {
         navigationService
             .getNavigationTree()
             .subscribe(on: DispatchQueue.global(qos: .userInitiated))
             .map({ navigationItems -> NavigationResult in .success(navigationItems) })
-            .replaceError(with: .failure(.loadingFailure))
-            .sink { [weak navigationItems] result in navigationItems?.send(result) }
+            .replaceError(with: .failure(.restError))
+            .sink { [weak navigationItemsResult] result in navigationItemsResult?.send(result) }
             .store(in: &cancellables)
     }
 }

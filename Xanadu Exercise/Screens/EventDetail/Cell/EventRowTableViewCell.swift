@@ -17,8 +17,8 @@ class EventRowTableViewCell: UITableViewCell {
         separatorInset = .zero
     }
     
-    func set(name: String, dateLabel: String) {
+    func set(name: String, dateText: String) {
         nameLabel.text = name
-        self.dateLabel.text = dateLabel
+        self.dateLabel.text = dateText
     }
 }

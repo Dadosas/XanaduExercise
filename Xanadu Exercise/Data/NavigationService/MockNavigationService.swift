@@ -10,7 +10,7 @@ import Combine
 
 class MockNavigationService: NavigationService {
     
-    static var simulateErrorOnFirstCall = false
+    static var simulateErrorOnFirstCall = true
     
     private let mockNavigationJSON = """
 [
@@ -83,25 +83,23 @@ class MockNavigationService: NavigationService {
 ]
 """
     
-    func getNavigationTree() -> AnyPublisher<[NavigationItem], Error> {
+    func getNavigationTree() -> AnyPublisher<[NavigationItem], XanaduError> {
         return Future { [weak self] promise in
             guard var mockNavigationJSON = self?.mockNavigationJSON else {
-                return promise(.failure(RESTError.loadingFailure))
+                return promise(.failure(XanaduError.restError))
             }
             if Self.simulateErrorOnFirstCall {
                 Self.simulateErrorOnFirstCall = false
                 mockNavigationJSON.insert(";", at: String.Index(utf16Offset: 123, in: mockNavigationJSON))
             }
             print("Start timer")
-            DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(500)) {
-                guard let data = mockNavigationJSON.data(using: .utf8) else {
-                    return promise(.failure(RESTError.loadingFailure))
-                }
-                guard let mockNavigationDTO = try? JSONDecoder().decode(NavigationDTO.self, from: data) else {
-                    return promise(.failure(RESTError.parsingFailure))
-                }
-                guard let navigationItems = mockNavigationDTO.toNavigationItems() else {
-                    return promise(.failure(RESTError.parsingFailure))
+            DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(5000)) {
+                guard
+                    let data = mockNavigationJSON.data(using: .utf8),
+                    let mockNavigationDTO = try? JSONDecoder().decode(NavigationDTO.self, from: data),
+                    let navigationItems = mockNavigationDTO.toNavigationItems()
+                else {
+                    return promise(.failure(XanaduError.restError))
                 }
                 print("Returning mock DTO")
                 promise(.success(navigationItems))

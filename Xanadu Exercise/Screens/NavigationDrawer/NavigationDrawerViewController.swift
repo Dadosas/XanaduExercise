@@ -10,37 +10,38 @@ import Combine
 
 class NavigationDrawerViewController: UIViewController {
 
-    static func instance() -> NavigationDrawerViewController {
-        let vc = UIStoryboard(name: "NavigationDrawerViewController", bundle: nil)
-            .instantiateInitialViewController() as! NavigationDrawerViewController
-        vc.viewModel = NavigationDrawerViewModelImpl(appDependencies: AppDelegate.getAppDependencies())
-        return vc
+    static func instance(viewModel: NavigationDrawerViewModel) -> NavigationDrawerViewController {
+        return UIStoryboard(name: "NavigationDrawerViewController", bundle: nil).instantiateInitialViewController { coder in
+            NavigationDrawerViewController(coder: coder, viewModel: viewModel)
+        }!
     }
     
-    private var viewModel: NavigationDrawerViewModel!
-    private var dataSource: NavigationDrawerDataSource!
+    private let viewModel: NavigationDrawerViewModel
+    private lazy var dataSource = NavigationDrawerDataSource { [weak self] selectedNavigationItem in
+        guard
+            let this = self,
+            let navigationController = this.navigationController,
+            let eventDetailViewModel = this.viewModel.getEventDetailViewModelIfNavigable(navigationItem: selectedNavigationItem)
+        else { return }
+        let eventVC = EventDetailViewController.instance(viewModel: eventDetailViewModel)
+        navigationController.setViewControllers(navigationController.viewControllers.dropLast() + [eventVC], animated: true)
+    }
     private var cancellables: [AnyCancellable] = []
     
     @IBOutlet weak var tableView: UITableView!
     
-    @IBOutlet weak var loadingContainer: UIView!
-    @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
-    @IBOutlet weak var loadingLabel: UILabel!
+    @IBOutlet weak var errorView: ErrorView!
     
-    @IBOutlet weak var errorContainer: UIView!
-    @IBOutlet weak var errorLabel: UILabel!
-    @IBOutlet weak var retryButton: UIButton!
+    @IBOutlet weak var loadingView: LoadingView!
     
-    required init?(coder: NSCoder) {
+    required init?(coder: NSCoder, viewModel: NavigationDrawerViewModel) {
+        self.viewModel = viewModel
         super.init(coder: coder)
-        dataSource = NavigationDrawerDataSource { [weak self] selectedNavigationItem in
-            guard let this = self else { return }
-            if this.viewModel.canNavigate(to: selectedNavigationItem) {
-                guard let navigationController = this.navigationController else { return }
-                let eventVC = EventDetailViewController.instance(navigationItem: selectedNavigationItem)
-                navigationController.setViewControllers(navigationController.viewControllers.dropLast() + [eventVC], animated: true)
-            }
-        }
+    }
+    
+    @available(*, unavailable, renamed: "init(coder:viewModel:)")
+    required init?(coder: NSCoder) {
+        fatalError("Invalid init")
     }
     
     override func viewDidLoad() {
@@ -49,12 +50,7 @@ class NavigationDrawerViewController: UIViewController {
         navigationItem.hidesBackButton = true
         navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Close", style: .plain, target: self, action: #selector(didTapOnCloseBarButtonItem))
 
-        loadingLabel.text = "Loading..."
-        loadingLabel.textAlignment = .center
- 
-        errorLabel.text = "An error has occurred, please retry..."
-        retryButton.setTitle("Retry", for: UIControl.State())
-        retryButton.addTarget(self, action: #selector(didTapOnRetryButton), for: .touchUpInside)
+        errorView.onRetry = viewModel.retry
         
         tableView.register(UINib(nibName: "NavigationDrawerTableViewCell", bundle: nil), forCellReuseIdentifier: NavigationDrawerTableViewCell.description())
         tableView.allowsSelection = true
@@ -68,25 +64,22 @@ class NavigationDrawerViewController: UIViewController {
                 case .loading:
                     this.tableView.isHidden = true
                     
-                    this.loadingContainer.isHidden = false
-                    this.activityIndicator.startAnimating()
+                    this.loadingView.isHidden = false
                     
-                    this.errorContainer.isHidden = true
+                    this.errorView.isHidden = true
                 case .loaded(let navigationItems):
                     this.tableView.isHidden = false
                     this.dataSource.reload(items: navigationItems, tableView: this.tableView)
                     
-                    this.loadingContainer.isHidden = true
-                    this.activityIndicator.stopAnimating()
+                    this.loadingView.isHidden = true
                     
-                    this.errorContainer.isHidden = true
+                    this.errorView.isHidden = true
                 case .error:
                     this.tableView.isHidden = true
                     
-                    this.loadingContainer.isHidden = true
-                    this.activityIndicator.stopAnimating()
+                    this.loadingView.isHidden = true
                     
-                    this.errorContainer.isHidden = false
+                    this.errorView.isHidden = false
                 }
             }
             .store(in: &cancellables)
@@ -94,10 +87,6 @@ class NavigationDrawerViewController: UIViewController {
     
     @IBAction func didTapOnCloseBarButtonItem() {
         navigationController?.popViewController(animated: true)
-    }
-    
-    @IBAction func didTapOnRetryButton() {
-        viewModel.retry()
     }
 }
 

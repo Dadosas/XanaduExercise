@@ -20,67 +20,38 @@
                                 <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                             </tableView>
-                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="equalSpacing" alignment="center" spacing="24" translatesAutoresizingMaskIntoConstraints="NO" id="Foq-5l-zo8">
-                                <rect key="frame" x="176" y="394" width="41.333333333333343" height="64.333333333333314"/>
-                                <subviews>
-                                    <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" style="medium" translatesAutoresizingMaskIntoConstraints="NO" id="5MN-Il-Fal">
-                                        <rect key="frame" x="10.666666666666657" y="0.0" width="20" height="20"/>
-                                    </activityIndicatorView>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="spG-V4-rpP">
-                                        <rect key="frame" x="0.0" y="44" width="41.333333333333336" height="20.333333333333329"/>
-                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                        <nil key="textColor"/>
-                                        <nil key="highlightedColor"/>
-                                    </label>
-                                </subviews>
-                            </stackView>
-                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="equalSpacing" alignment="center" spacing="24" translatesAutoresizingMaskIntoConstraints="NO" id="uJq-pf-U1b">
-                                <rect key="frame" x="159" y="386.66666666666669" width="75" height="78.666666666666686"/>
-                                <subviews>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="KfO-2e-4Zw">
-                                        <rect key="frame" x="17.000000000000004" y="0.0" width="41.333333333333343" height="20.333333333333332"/>
-                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                        <nil key="textColor"/>
-                                        <nil key="highlightedColor"/>
-                                    </label>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="R1D-XV-Rol">
-                                        <rect key="frame" x="0.0" y="44.333333333333314" width="75" height="34.333333333333343"/>
-                                        <state key="normal" title="Button"/>
-                                        <buttonConfiguration key="configuration" style="plain" title="Button"/>
-                                    </button>
-                                </subviews>
-                            </stackView>
+                            <view contentMode="scaleToFill" placeholderIntrinsicWidth="300" placeholderIntrinsicHeight="300" translatesAutoresizingMaskIntoConstraints="NO" id="Fm2-OJ-WuZ" customClass="ErrorView" customModule="Xanadu_Exercise" customModuleProvider="target">
+                                <rect key="frame" x="46.666666666666657" y="276" width="300" height="300"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                            </view>
+                            <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="oeP-KK-fa8" customClass="LoadingView" customModule="Xanadu_Exercise" customModuleProvider="target">
+                                <rect key="frame" x="76" y="362" width="240" height="128"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                            </view>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="vDu-zF-Fre"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
+                            <constraint firstItem="Fm2-OJ-WuZ" firstAttribute="centerX" secondItem="5EZ-qb-Rvc" secondAttribute="centerX" id="5Sz-KM-iUW"/>
+                            <constraint firstItem="Fm2-OJ-WuZ" firstAttribute="centerY" secondItem="5EZ-qb-Rvc" secondAttribute="centerY" id="K3S-rY-zV5"/>
                             <constraint firstAttribute="trailing" secondItem="ztR-ce-uWn" secondAttribute="trailing" id="QBG-JO-KbU"/>
-                            <constraint firstItem="Foq-5l-zo8" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="vDu-zF-Fre" secondAttribute="leading" constant="12" id="WVk-g4-q0v"/>
+                            <constraint firstItem="Fm2-OJ-WuZ" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="vDu-zF-Fre" secondAttribute="leading" constant="12" id="Qbj-6B-k8H"/>
                             <constraint firstAttribute="bottom" secondItem="ztR-ce-uWn" secondAttribute="bottom" id="aWa-yc-ZuR"/>
-                            <constraint firstItem="uJq-pf-U1b" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="vDu-zF-Fre" secondAttribute="leading" constant="12" id="f98-uJ-RN2"/>
+                            <constraint firstItem="Fm2-OJ-WuZ" firstAttribute="top" relation="greaterThanOrEqual" secondItem="vDu-zF-Fre" secondAttribute="top" constant="12" id="edh-Bd-Fge"/>
                             <constraint firstItem="ztR-ce-uWn" firstAttribute="leading" secondItem="5EZ-qb-Rvc" secondAttribute="leading" id="g44-jE-e7k"/>
-                            <constraint firstItem="Foq-5l-zo8" firstAttribute="top" relation="greaterThanOrEqual" secondItem="vDu-zF-Fre" secondAttribute="top" constant="12" id="lrU-6x-OkV"/>
-                            <constraint firstItem="Foq-5l-zo8" firstAttribute="centerX" secondItem="5EZ-qb-Rvc" secondAttribute="centerX" id="nuN-qk-VfW"/>
-                            <constraint firstItem="uJq-pf-U1b" firstAttribute="centerY" secondItem="5EZ-qb-Rvc" secondAttribute="centerY" id="plY-do-ecP"/>
                             <constraint firstItem="ztR-ce-uWn" firstAttribute="top" secondItem="5EZ-qb-Rvc" secondAttribute="top" id="qbU-9X-6NV"/>
-                            <constraint firstItem="Foq-5l-zo8" firstAttribute="centerY" secondItem="5EZ-qb-Rvc" secondAttribute="centerY" id="suq-w1-SO9"/>
-                            <constraint firstItem="uJq-pf-U1b" firstAttribute="centerX" secondItem="5EZ-qb-Rvc" secondAttribute="centerX" id="uqO-zI-wrq"/>
-                            <constraint firstItem="uJq-pf-U1b" firstAttribute="top" relation="greaterThanOrEqual" secondItem="vDu-zF-Fre" secondAttribute="top" constant="12" id="yw4-vW-img"/>
                         </constraints>
                     </view>
                     <connections>
-                        <outlet property="activityIndicator" destination="5MN-Il-Fal" id="GWb-1n-AUD"/>
-                        <outlet property="errorContainer" destination="uJq-pf-U1b" id="SuX-dd-yTP"/>
-                        <outlet property="errorLabel" destination="KfO-2e-4Zw" id="acB-Vu-MbQ"/>
-                        <outlet property="loadingContainer" destination="Foq-5l-zo8" id="O3e-xr-LH1"/>
-                        <outlet property="loadingLabel" destination="spG-V4-rpP" id="iOL-Ky-CbW"/>
-                        <outlet property="retryButton" destination="R1D-XV-Rol" id="NTt-5H-bbV"/>
+                        <outlet property="errorView" destination="Fm2-OJ-WuZ" id="tiP-AR-Yku"/>
+                        <outlet property="loadingView" destination="oeP-KK-fa8" id="EH8-vI-uPa"/>
                         <outlet property="tableView" destination="ztR-ce-uWn" id="9tO-gN-pJC"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Ief-a0-LHa" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="132" y="-34"/>
+            <point key="canvasLocation" x="130.53435114503816" y="-34.507042253521128"/>
         </scene>
     </scenes>
     <resources>

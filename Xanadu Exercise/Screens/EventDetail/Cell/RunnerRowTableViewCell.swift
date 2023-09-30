@@ -34,4 +34,10 @@ class RunnerRowTableViewCell: UITableViewCell {
         self.backOddsLabel.text = backOddsText
         self.layOddsLabel.text = layOddsText
     }
+    
+    func set(runner: EventDetailRow.Runner) {
+        self.set(name: runner.name,
+                 backOddsText: runner.backOddsText,
+                 layOddsText: runner.layOddsText)
+    }
 }

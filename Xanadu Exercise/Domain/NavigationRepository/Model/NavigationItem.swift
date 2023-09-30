@@ -51,7 +51,12 @@ class NavigationItem {
     }
 }
 
-extension NavigationItem: Equatable {
+extension NavigationItem: Equatable, Hashable {
+    func hash(into hasher: inout Hasher) {
+        hasher.combine(name)
+        hasher.combine(urlTag)
+    }
+    
     static func == (lhs: NavigationItem, rhs: NavigationItem) -> Bool {
         return lhs.name == rhs.name && lhs.urlTag == rhs.urlTag
     }

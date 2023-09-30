@@ -21,4 +21,8 @@ class EventRowTableViewCell: UITableViewCell {
         nameLabel.text = name
         self.dateLabel.text = dateText
     }
+    
+    func set(event: EventDetailRow.Event) {
+        self.set(name: event.name, dateText: event.dateText)
+    }
 }

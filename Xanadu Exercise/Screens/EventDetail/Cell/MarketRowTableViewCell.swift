@@ -19,4 +19,8 @@ class MarketRowTableViewCell: UITableViewCell {
     func set(name: String) {
         nameLabel.text = name
     }
+    
+    func set(market: EventDetailRow.Market) {
+        self.set(name: market.name)
+    }
 }

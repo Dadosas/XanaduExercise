@@ -20,13 +20,73 @@ enum EventDetailState {
     case loaded(rows: [EventDetailRow])
 }
 
-enum EventDetailRow {
-    case event(name: String,
-               dateLabel: String)
-    case market(name: String)
-    case runner(name: String,
-                backOddsLabel: String,
-                layOddsLabel: String)
+enum EventDetailRow: Equatable, Hashable {
+    case event(Event)
+    case market(Market)
+    case runner(Runner)
+    
+    func hash(into hasher: inout Hasher) {
+        switch self {
+        case .event(let item):
+            hasher.combine(item)
+        case .market(let item):
+            hasher.combine(item)
+        case .runner(let item):
+            hasher.combine(item)
+        }
+    }
+    
+    /*static func == (lhs: EventDetailRow, rhs: EventDetailRow) -> Bool {
+        switch (lhs, rhs) {
+        case (.event(let leftEvent), .event(let rightEvent)):
+            return leftEvent == rightEvent
+        case (.market(let leftMarket), .market(let rightMarket)):
+            return leftMarket == rightMarket
+        case (.runner(let leftRunner), .runner(let rightRunner)):
+            return leftRunner == rightRunner
+        default:
+            return false
+        }
+    }*/
+    
+    struct Event: Equatable, Hashable {
+        let name: String
+        let dateText: String
+        
+        func asRow() -> EventDetailRow {
+            return .event(self)
+        }
+        
+        /*static func == (lhs: Event, rhs: Event) -> Bool {
+            return lhs.name == rhs.name && lhs.dateText == rhs.dateText
+        }*/
+    }
+    
+    struct Market: Equatable, Hashable {
+        let name: String
+        
+        func asRow() -> EventDetailRow {
+            return .market(self)
+        }
+        
+        /*static func == (lhs: Market, rhs: Market) -> Bool {
+            return lhs.name == rhs.name
+        }*/
+    }
+    
+    struct Runner: Equatable, Hashable {
+        let name: String
+        let backOddsText: String
+        let layOddsText: String
+        
+        func asRow() -> EventDetailRow {
+            return .runner(self)
+        }
+        
+        /*static func == (lhs: Runner, rhs: Runner) -> Bool {
+            return lhs.name == rhs.name && lhs.backOddsText == rhs.backOddsText && lhs.layOddsText == rhs.layOddsText
+        }*/
+    }
 }
 
 class DefaultEventDetailViewModel: EventDetailViewModel {
@@ -72,7 +132,6 @@ class DefaultEventDetailViewModel: EventDetailViewModel {
                     return EventDetailState.error
                 }
             }
-            .receive(on: DispatchQueue.main)
             .sink { [weak eventDetailState] in eventDetailState?.send($0) }
             .store(in: &cancellables)
     }
@@ -115,15 +174,15 @@ private extension [MatchEvent] {
 private extension MatchEvent {
     func getRows() -> [EventDetailRow] {
         let dateLabel = self.startDate.formatted(date: .abbreviated, time: .shortened)
-        let eventRow = EventDetailRow.event(name: self.name, dateLabel: dateLabel)
-        
+        let eventRow = EventDetailRow.Event(name: self.name, dateText: dateLabel).asRow()
+
         return [eventRow] + self.markets.flatMap({ $0.getRows() })
     }
 }
 
 private extension MatchMarket {
     func getRows() -> [EventDetailRow] {
-        let marketRow = EventDetailRow.market(name: self.name)
+        let marketRow = EventDetailRow.Market(name: self.name).asRow()
         
         return [marketRow] + self.runners.map({ $0.getRow() })
     }
@@ -132,22 +191,22 @@ private extension MatchMarket {
 private extension MatchRunner {
     func getRow() -> EventDetailRow {
         let roundToTwoDecimals: (Double) -> String = { String(format: "%.2f", $0) }
-        let backOddsLabel: String
+        let backOddsText: String
         if let backOdds = self.backOdds {
-            backOddsLabel = roundToTwoDecimals(backOdds)
+            backOddsText = roundToTwoDecimals(backOdds)
         } else {
-            backOddsLabel = "NO BACK"
+            backOddsText = "NO BACK"
         }
         
-        let layOddsLabel: String
+        let layOddsText: String
         if let layOdds = self.layOdds {
-            layOddsLabel = roundToTwoDecimals(layOdds)
+            layOddsText = roundToTwoDecimals(layOdds)
         } else {
-            layOddsLabel = "NO LAY"
+            layOddsText = "NO LAY"
         }
         
-        return EventDetailRow.runner(name: self.name,
-                                     backOddsLabel: backOddsLabel,
-                                     layOddsLabel: layOddsLabel)
+        return EventDetailRow.Runner(name: self.name,
+                                     backOddsText: backOddsText,
+                                     layOddsText: layOddsText).asRow()
     }
 }

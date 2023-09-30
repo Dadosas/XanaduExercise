@@ -16,15 +16,29 @@ class EventDetailViewController: UIViewController {
         }!
     }
     
-    private var viewModel: EventDetailViewModel!
-    private let dataSource = EventDetailDataSource()
+    private let viewModel: EventDetailViewModel
     private var cancellables: [AnyCancellable] = []
     
     @IBOutlet weak var tableView: UITableView!
-    
     @IBOutlet weak var errorView: ErrorView!
-    
     @IBOutlet weak var loadingView: LoadingView!
+    
+    private lazy var snapshotDataSource = UITableViewDiffableDataSource<Int, EventDetailRow>(tableView: tableView) { tableView, indexPath, itemIdentifier in
+        switch itemIdentifier {
+        case .event(let event):
+            let cell = tableView.dequeueReusableCell(withIdentifier: EventRowTableViewCell.description(), for: indexPath) as! EventRowTableViewCell
+            cell.set(event: event)
+            return cell
+        case .market(let market):
+            let cell = tableView.dequeueReusableCell(withIdentifier: MarketRowTableViewCell.description(), for: indexPath) as! MarketRowTableViewCell
+            cell.set(market: market)
+            return cell
+        case .runner(let runner):
+            let cell = tableView.dequeueReusableCell(withIdentifier: RunnerRowTableViewCell.description(), for: indexPath) as! RunnerRowTableViewCell
+            cell.set(runner: runner)
+            return cell
+        }
+    }
     
     required init?(coder: NSCoder, viewModel: EventDetailViewModel) {
         self.viewModel = viewModel
@@ -48,7 +62,9 @@ class EventDetailViewController: UIViewController {
         tableView.register(UINib(nibName: "MarketRowTableViewCell", bundle: nil), forCellReuseIdentifier: MarketRowTableViewCell.description())
         tableView.register(UINib(nibName: "RunnerRowTableViewCell", bundle: nil), forCellReuseIdentifier: RunnerRowTableViewCell.description())
         tableView.allowsSelection = false
-        tableView.dataSource = dataSource
+        
+        tableView.dataSource = snapshotDataSource
+        snapshotDataSource.apply(NSDiffableDataSourceSnapshot<Int, EventDetailRow>(), animatingDifferences: false)
         
         viewModel.publishEventDetailState()
             .receive(on: DispatchQueue.main)
@@ -63,7 +79,13 @@ class EventDetailViewController: UIViewController {
                     this.errorView.isHidden = true
                 case .loaded(let rows):
                     this.tableView.isHidden = false
-                    this.dataSource.reload(items: rows, tableView: this.tableView)
+                    
+                    var oldSnaphot = this.snapshotDataSource.snapshot()
+                    oldSnaphot.deleteAllItems()
+                    oldSnaphot.appendSections([1])
+                    oldSnaphot.appendItems(rows, toSection: 1)
+                    this.snapshotDataSource.defaultRowAnimation = .fade
+                    this.snapshotDataSource.apply(oldSnaphot, animatingDifferences: true)
                     
                     this.loadingView.isHidden = true
                     
@@ -77,41 +99,5 @@ class EventDetailViewController: UIViewController {
                 }
             }
             .store(in: &cancellables)
-    }
-}
-
-class EventDetailDataSource: NSObject, UITableViewDataSource {
-    
-    private var items: [EventDetailRow] = []
-    
-    func reload(items: [EventDetailRow], tableView: UITableView) {
-        self.items = items
-        tableView.reloadData()
-    }
-    
-    func numberOfSections(in tableView: UITableView) -> Int {
-        return 1
-    }
- 
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return items.count
-    }
-    
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let item = items[indexPath.row]
-        switch item {
-        case .event(let name, let dateLabel):
-            let cell = tableView.dequeueReusableCell(withIdentifier: EventRowTableViewCell.description(), for: indexPath) as! EventRowTableViewCell
-            cell.set(name: name, dateText: dateLabel)
-            return cell
-        case .market(let name):
-            let cell = tableView.dequeueReusableCell(withIdentifier: MarketRowTableViewCell.description(), for: indexPath) as! MarketRowTableViewCell
-            cell.set(name: name)
-            return cell
-        case .runner(let name, let backOddsLabel, let layOddsLabel):
-            let cell = tableView.dequeueReusableCell(withIdentifier: RunnerRowTableViewCell.description(), for: indexPath) as! RunnerRowTableViewCell
-            cell.set(name: name, backOddsText: backOddsLabel, layOddsText: layOddsLabel)
-            return cell
-        }
     }
 }

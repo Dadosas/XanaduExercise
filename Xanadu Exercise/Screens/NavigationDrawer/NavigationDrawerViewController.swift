@@ -17,7 +17,12 @@ class NavigationDrawerViewController: UIViewController {
     }
     
     private let viewModel: NavigationDrawerViewModel
-    private lazy var dataSource = NavigationDrawerDataSource { [weak self] selectedNavigationItem in
+    private lazy var diffableDataSource = UITableViewDiffableDataSource<Int, NavigationItem>(tableView: tableView) { tableView, indexPath, itemIdentifier in
+        let cell = tableView.dequeueReusableCell(withIdentifier: NavigationDrawerTableViewCell.description(), for: indexPath) as! NavigationDrawerTableViewCell
+        cell.set(navigationItem: itemIdentifier)
+        return cell
+    }
+    private lazy var tableViewDelegate = NavigationDrawerTableViewDelegate(diffableDataSource: diffableDataSource, navigateTo: { [weak self] selectedNavigationItem in
         guard
             let this = self,
             let navigationController = this.navigationController,
@@ -25,13 +30,11 @@ class NavigationDrawerViewController: UIViewController {
         else { return }
         let eventVC = EventDetailViewController.instance(viewModel: eventDetailViewModel)
         navigationController.setViewControllers(navigationController.viewControllers.dropLast() + [eventVC], animated: true)
-    }
+    })
     private var cancellables: [AnyCancellable] = []
     
     @IBOutlet weak var tableView: UITableView!
-    
     @IBOutlet weak var errorView: ErrorView!
-    
     @IBOutlet weak var loadingView: LoadingView!
     
     required init?(coder: NSCoder, viewModel: NavigationDrawerViewModel) {
@@ -54,8 +57,9 @@ class NavigationDrawerViewController: UIViewController {
         
         tableView.register(UINib(nibName: "NavigationDrawerTableViewCell", bundle: nil), forCellReuseIdentifier: NavigationDrawerTableViewCell.description())
         tableView.allowsSelection = true
-        tableView.delegate = dataSource
-        tableView.dataSource = dataSource
+        tableView.delegate = tableViewDelegate
+        tableView.dataSource = diffableDataSource
+        diffableDataSource.apply(NSDiffableDataSourceSnapshot<Int, NavigationItem>(), animatingDifferences: false)
         
         viewModel.publishNavigationDrawerState()
             .receive(on: DispatchQueue.main)
@@ -70,7 +74,12 @@ class NavigationDrawerViewController: UIViewController {
                     this.errorView.isHidden = true
                 case .loaded(let navigationItems):
                     this.tableView.isHidden = false
-                    this.dataSource.reload(items: navigationItems, tableView: this.tableView)
+                    
+                    var oldSnapshot = this.diffableDataSource.snapshot()
+                    oldSnapshot.deleteAllItems()
+                    oldSnapshot.appendSections([1])
+                    oldSnapshot.appendItems(navigationItems, toSection: 1)
+                    this.diffableDataSource.apply(oldSnapshot, animatingDifferences: true)
                     
                     this.loadingView.isHidden = true
                     
@@ -91,37 +100,20 @@ class NavigationDrawerViewController: UIViewController {
     }
 }
 
-class NavigationDrawerDataSource: NSObject, UITableViewDataSource, UITableViewDelegate {
+class NavigationDrawerTableViewDelegate: NSObject, UITableViewDelegate {
     
-    private var items: [NavigationItem] = []
+    private let diffableDataSource: UITableViewDiffableDataSource<Int, NavigationItem>
     private let navigationItemSelected: (NavigationItem) -> Void
     
-    init(navigateTo: @escaping (NavigationItem) -> Void) {
+    init(diffableDataSource: UITableViewDiffableDataSource<Int, NavigationItem>,
+         navigateTo: @escaping (NavigationItem) -> Void) {
+        self.diffableDataSource = diffableDataSource
         self.navigationItemSelected = navigateTo
-    }
-    
-    func reload(items: [NavigationItem], tableView: UITableView) {
-        self.items = items
-        tableView.reloadData()
-    }
-    
-    func numberOfSections(in tableView: UITableView) -> Int {
-        return 1
-    }
- 
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return items.count
-    }
-    
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: NavigationDrawerTableViewCell.description(), for: indexPath) as! NavigationDrawerTableViewCell
-        cell.set(navigationItem: items[indexPath.row])
-        return cell
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
-        let item = items[indexPath.row]
+        guard let item = diffableDataSource.itemIdentifier(for: indexPath) else { return }
         navigationItemSelected(item)
     }
 }

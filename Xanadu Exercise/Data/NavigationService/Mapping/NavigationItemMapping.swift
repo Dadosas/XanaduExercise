@@ -11,13 +11,16 @@ extension NavigationDTO {
     func toNavigationItems() -> [NavigationItem]? {
         guard let sportMetaTag = self.first else { return nil }
         return sportMetaTag.metaTags
-            .map { $0.toNavigationItem() }
-            .flatMap({ $0.getSelfAndAllChildren() })
+            .flatMap({ $0.toNavigationItems() })
     }
 }
 
 private extension MetaTagDTO {
     func toNavigationItem() -> NavigationItem {
-        return NavigationItem(name: self.name, tag: self.urlName, children: metaTags.compactMap { $0.toNavigationItem() })
+        return NavigationItem(name: self.name, tag: self.urlName, isNavigableTo: metaTags.isEmpty)
+    }
+    
+    func toNavigationItems() -> [NavigationItem] {
+        return [self.toNavigationItem()] + self.metaTags.flatMap({ $0.toNavigationItems() })
     }
 }

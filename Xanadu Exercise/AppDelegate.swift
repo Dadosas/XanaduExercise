@@ -29,7 +29,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         let matchRepository: MatchRepository = DefaultMatchRepository(matchService: matchService, socket: socket)
         
         appDependencies = DefaultAppDependencies(navigationRepository: navigationRepository,
-                                              matchRepository: matchRepository)
+                                                 matchRepository: matchRepository)
         return true
     }
 

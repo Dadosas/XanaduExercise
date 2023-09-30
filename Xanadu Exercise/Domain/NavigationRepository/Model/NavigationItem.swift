@@ -11,7 +11,7 @@ class NavigationItem {
     
     let name: String
     let urlTag: String
-    private let children: [NavigationItem]
+    let isNavigableTo: Bool
     private weak var parent: NavigationItem?
     
     private lazy var urlTags: [String] = {
@@ -19,19 +19,14 @@ class NavigationItem {
         return parentTags + [urlTag]
     }()
     
-    init(name: String, tag: String, children: [NavigationItem]) {
+    init(name: String, tag: String, isNavigableTo: Bool) {
         self.name = name
         self.urlTag = tag
-        self.children = children
-        children.forEach { $0.set(parent: self) }
+        self.isNavigableTo = isNavigableTo
     }
     
     func set(parent: NavigationItem) {
         self.parent = parent
-    }
-    
-    func getSelfAndAllChildren() -> [NavigationItem] {
-        return [self] + children.flatMap({ $0.getSelfAndAllChildren() })
     }
     
     func getUrlTags() -> [String] {
@@ -45,19 +40,16 @@ class NavigationItem {
     func getDepth() -> Int {
         return getUrlTags().count
     }
-    
-    func isNavigableTo() -> Bool {
-        return children.isEmpty
-    }
 }
 
-extension NavigationItem: Equatable, Hashable {
+extension NavigationItem: Hashable {
     func hash(into hasher: inout Hasher) {
         hasher.combine(name)
         hasher.combine(urlTag)
+        hasher.combine(isNavigableTo)
     }
     
     static func == (lhs: NavigationItem, rhs: NavigationItem) -> Bool {
-        return lhs.name == rhs.name && lhs.urlTag == rhs.urlTag
+        return lhs.name == rhs.name && lhs.urlTag == rhs.urlTag && lhs.isNavigableTo == rhs.isNavigableTo
     }
 }

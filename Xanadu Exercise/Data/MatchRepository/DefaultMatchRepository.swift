@@ -114,7 +114,7 @@ class DefaultMatchRepository: MatchRepository {
         switch matchEventsResult.value {
         case .success(let matchEvents):
             guard
-                var matchEvents = matchEvents,
+                let matchEvents = matchEvents,
                 let eventIndex = matchEvents.getIndex(byName: matchRunnerUpdate.eventName)
             else { return }
             let event = matchEvents[eventIndex]

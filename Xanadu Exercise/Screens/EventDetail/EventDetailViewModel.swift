@@ -20,7 +20,7 @@ enum EventDetailState {
     case loaded(rows: [EventDetailRow])
 }
 
-enum EventDetailRow: Equatable, Hashable {
+enum EventDetailRow: Hashable {
     case event(Event)
     case market(Market)
     case runner(Runner)
@@ -28,15 +28,15 @@ enum EventDetailRow: Equatable, Hashable {
     func hash(into hasher: inout Hasher) {
         switch self {
         case .event(let item):
-            hasher.combine(item)
+            hasher.combine("\(item.id)_event")
         case .market(let item):
-            hasher.combine(item)
+            hasher.combine("\(item.id)_market")
         case .runner(let item):
-            hasher.combine(item)
+            hasher.combine("\(item.id)_runner")
         }
     }
     
-    /*static func == (lhs: EventDetailRow, rhs: EventDetailRow) -> Bool {
+    static func == (lhs: EventDetailRow, rhs: EventDetailRow) -> Bool {
         switch (lhs, rhs) {
         case (.event(let leftEvent), .event(let rightEvent)):
             return leftEvent == rightEvent
@@ -47,34 +47,29 @@ enum EventDetailRow: Equatable, Hashable {
         default:
             return false
         }
-    }*/
+    }
     
-    struct Event: Equatable, Hashable {
+    struct Event: Hashable {
+        let id: String
         let name: String
         let dateText: String
         
         func asRow() -> EventDetailRow {
             return .event(self)
         }
-        
-        /*static func == (lhs: Event, rhs: Event) -> Bool {
-            return lhs.name == rhs.name && lhs.dateText == rhs.dateText
-        }*/
     }
     
-    struct Market: Equatable, Hashable {
+    struct Market: Hashable {
+        let id: String
         let name: String
         
         func asRow() -> EventDetailRow {
             return .market(self)
         }
-        
-        /*static func == (lhs: Market, rhs: Market) -> Bool {
-            return lhs.name == rhs.name
-        }*/
     }
     
-    struct Runner: Equatable, Hashable {
+    struct Runner: Hashable {
+        let id: String
         let name: String
         let backOddsText: String
         let layOddsText: String
@@ -82,10 +77,6 @@ enum EventDetailRow: Equatable, Hashable {
         func asRow() -> EventDetailRow {
             return .runner(self)
         }
-        
-        /*static func == (lhs: Runner, rhs: Runner) -> Bool {
-            return lhs.name == rhs.name && lhs.backOddsText == rhs.backOddsText && lhs.layOddsText == rhs.layOddsText
-        }*/
     }
 }
 
@@ -163,33 +154,41 @@ class DefaultEventDetailViewModel: EventDetailViewModel {
     }
 }
 
+// index passed to these methods is needed to disambiguate between items with the same id
+// this edge case (which I didn't originally consider) was happening for Markets and causing crashes
 private extension [MatchEvent] {
     func getRows() -> [EventDetailRow] {
-        return reduce(into: [EventDetailRow]()) { partialResult, currentEvent in
-            partialResult += currentEvent.getRows()
+        return enumerated().reduce(into: [EventDetailRow]()) { partialResult, arg in
+            let (index, currentEvent) = arg
+            partialResult += currentEvent.getRows(index: index)
         }
     }
 }
 
 private extension MatchEvent {
-    func getRows() -> [EventDetailRow] {
+    func getRows(index: Int) -> [EventDetailRow] {
+        let id = "\(self.name)\(index)"
         let dateLabel = self.startDate.formatted(date: .abbreviated, time: .shortened)
-        let eventRow = EventDetailRow.Event(name: self.name, dateText: dateLabel).asRow()
+        let event = EventDetailRow.Event(id: id, name: self.name, dateText: dateLabel)
 
-        return [eventRow] + self.markets.flatMap({ $0.getRows() })
+        return [event.asRow()] + self.markets.enumerated().flatMap({ (index, market) in
+            market.getRows(eventId: event.id, index: index)
+        })
     }
 }
 
 private extension MatchMarket {
-    func getRows() -> [EventDetailRow] {
-        let marketRow = EventDetailRow.Market(name: self.name).asRow()
-        
-        return [marketRow] + self.runners.map({ $0.getRow() })
+    func getRows(eventId: String, index: Int) -> [EventDetailRow] {
+        let id = "\(eventId)_\(self.name)\(index)"
+        let market = EventDetailRow.Market(id: id, name: self.name)
+        return [market.asRow()] + self.runners.enumerated().map({ (index, runner) in
+            runner.getRow(marketId: market.id, index: index)
+        })
     }
 }
 
 private extension MatchRunner {
-    func getRow() -> EventDetailRow {
+    func getRow(marketId: String, index: Int) -> EventDetailRow {
         let roundToTwoDecimals: (Double) -> String = { String(format: "%.2f", $0) }
         let backOddsText: String
         if let backOdds = self.backOdds {
@@ -205,7 +204,9 @@ private extension MatchRunner {
             layOddsText = "NO LAY"
         }
         
-        return EventDetailRow.Runner(name: self.name,
+        let id = "\(marketId)_\(self.name)\(index)"
+        return EventDetailRow.Runner(id: id,
+                                     name: self.name,
                                      backOddsText: backOddsText,
                                      layOddsText: layOddsText).asRow()
     }

@@ -55,7 +55,7 @@ class DefaultNavigationDrawerViewModel: NavigationDrawerViewModel {
     }
     
     func getEventDetailViewModelIfNavigable(navigationItem: NavigationItem) -> EventDetailViewModel? {
-        guard navigationItem.isNavigableTo() else { return nil }
+        guard navigationItem.isNavigableTo else { return nil }
         return DefaultEventDetailViewModel(navigationItem: navigationItem, appDependencies: AppDelegate.getAppDependencies())
     }
     

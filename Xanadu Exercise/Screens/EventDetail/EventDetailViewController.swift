@@ -64,6 +64,7 @@ class EventDetailViewController: UIViewController {
         tableView.allowsSelection = false
         
         tableView.dataSource = snapshotDataSource
+        snapshotDataSource.defaultRowAnimation = .fade
         snapshotDataSource.apply(NSDiffableDataSourceSnapshot<Int, EventDetailRow>(), animatingDifferences: false)
         
         viewModel.publishEventDetailState()
@@ -80,12 +81,35 @@ class EventDetailViewController: UIViewController {
                 case .loaded(let rows):
                     this.tableView.isHidden = false
                     
-                    var oldSnaphot = this.snapshotDataSource.snapshot()
-                    oldSnaphot.deleteAllItems()
-                    oldSnaphot.appendSections([1])
-                    oldSnaphot.appendItems(rows, toSection: 1)
-                    this.snapshotDataSource.defaultRowAnimation = .fade
-                    this.snapshotDataSource.apply(oldSnaphot, animatingDifferences: true)
+                    var newSnaphot = this.snapshotDataSource.snapshot()
+                    newSnaphot.deleteAllItems()
+                    newSnaphot.appendSections([0])
+                    var rowsDictionary = [String: EventDetailRow]()
+                    rows.forEach {
+                        switch $0 {
+                        case .event(let event):
+                            if rowsDictionary[event.id] != nil {
+                                print("WUT BRO")
+                            }
+                            rowsDictionary[event.id] = $0
+                        case .market(let market):
+                            if rowsDictionary[market.id] != nil {
+                                print("WUT BRO")
+                            }
+                            rowsDictionary[market.id] = $0
+                        case .runner(let runner):
+                            if rowsDictionary[runner.id] != nil {
+                                print("WUT BRO")
+                            }
+                            rowsDictionary[runner.id] = $0
+                        }
+                    }
+                    if rows.count != rowsDictionary.count {
+                        print("REEEEE")
+                    }
+                    newSnaphot.appendItems(rows, toSection: 0)
+                    print("APPLICATION \(Date.now)")
+                    this.snapshotDataSource.apply(newSnaphot, animatingDifferences: true)
                     
                     this.loadingView.isHidden = true
                     

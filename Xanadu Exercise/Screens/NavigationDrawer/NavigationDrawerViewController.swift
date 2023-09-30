@@ -75,11 +75,11 @@ class NavigationDrawerViewController: UIViewController {
                 case .loaded(let navigationItems):
                     this.tableView.isHidden = false
                     
-                    var oldSnapshot = this.diffableDataSource.snapshot()
-                    oldSnapshot.deleteAllItems()
-                    oldSnapshot.appendSections([1])
-                    oldSnapshot.appendItems(navigationItems, toSection: 1)
-                    this.diffableDataSource.apply(oldSnapshot, animatingDifferences: true)
+                    var newSnapshot = NSDiffableDataSourceSnapshot<Int, NavigationItem>()
+                    newSnapshot.deleteAllItems()
+                    newSnapshot.appendSections([0])
+                    newSnapshot.appendItems(navigationItems, toSection: 0)
+                    this.diffableDataSource.apply(newSnapshot, animatingDifferences: true)
                     
                     this.loadingView.isHidden = true
                     

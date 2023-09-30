@@ -18,12 +18,12 @@ final class DefaultNavigationRepositoryTest: XCTestCase {
     }
 
     func testSuccess() throws {
-        let items = [NavigationItem(name: "name", tag: "tag", children: [])]
+        let items = [NavigationItem(name: "name", tag: "tag", isNavigableTo: true)]
         let giveBackService = MockTestNavigationService(items: items)
         let defaultNavigationRepository = DefaultNavigationRepository(navigationService: giveBackService)
         
         var isExpectedItemsFound = false
-        let expectation = self.expectation(description: "NavigationRepository exposes parsingFailure RESTError")
+        let expectation = self.expectation(description: "NavigationRepository exposes resultItems equal to items passed to MockNavigationService")
         
         defaultNavigationRepository.publishNavigationItemsResult()
             .sink(receiveValue: { result in

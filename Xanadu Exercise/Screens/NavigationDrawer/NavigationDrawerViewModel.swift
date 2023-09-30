@@ -29,10 +29,6 @@ class DefaultNavigationDrawerViewModel: NavigationDrawerViewModel {
     
     init(navigationRepository: NavigationRepository) {
         self.navigationRepository = navigationRepository
-    }
-    
-    convenience init(appDependencies: AppDependencies) {
-        self.init(navigationRepository: appDependencies.navigationRepository)
         navigationRepository.publishNavigationItemsResult()
             .map({ result -> NavigationDrawerState in
                 switch result {

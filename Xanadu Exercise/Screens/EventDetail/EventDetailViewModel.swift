@@ -100,9 +100,7 @@ class DefaultEventDetailViewModel: EventDetailViewModel {
         startPolling()
     }
     
-    convenience init(navigationItem: NavigationItem, appDependencies: AppDependencies) {
-        self.init(navigationItem: navigationItem, matchRepository: appDependencies.matchRepository)
-    }
+
     
     deinit {
         matchRepository.set(matchQueryIdentifier: nil)

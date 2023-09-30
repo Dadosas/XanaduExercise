@@ -20,7 +20,7 @@ enum NavigationDrawerState {
     case loaded(navigationItems: [NavigationItem])
 }
 
-class NavigationDrawerViewModelImpl: NavigationDrawerViewModel {
+class DefaultNavigationDrawerViewModel: NavigationDrawerViewModel {
     
     private let navigationRepository: NavigationRepository
     private let state: CurrentValueSubject<NavigationDrawerState, Never> = .init(.loading)
@@ -34,7 +34,6 @@ class NavigationDrawerViewModelImpl: NavigationDrawerViewModel {
     convenience init(appDependencies: AppDependencies) {
         self.init(navigationRepository: appDependencies.navigationRepository)
         navigationRepository.publishNavigationItemsResult()
-            .receive(on: DispatchQueue.main)
             .map({ result -> NavigationDrawerState in
                 switch result {
                 case .success(let items):
@@ -56,8 +55,8 @@ class NavigationDrawerViewModelImpl: NavigationDrawerViewModel {
     }
     
     func getEventDetailViewModelIfNavigable(navigationItem: NavigationItem) -> EventDetailViewModel? {
-        guard navigationItem.isAccessibleEvent() else { return nil }
-        return EventDetailViewModelImpl(navigationItem: navigationItem, appDependencies: AppDelegate.getAppDependencies())
+        guard navigationItem.isNavigableTo() else { return nil }
+        return DefaultEventDetailViewModel(navigationItem: navigationItem, appDependencies: AppDelegate.getAppDependencies())
     }
     
     func retry() {

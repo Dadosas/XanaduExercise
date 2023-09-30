@@ -1,5 +1,5 @@
 //
-//  MatchServiceImpl.swift
+//  DefaultMatchService.swift
 //  Xanadu Exercise
 //
 //  Created by Davide Dallan on 24/09/23.
@@ -8,11 +8,11 @@
 import Foundation
 import Combine
 
-class MatchServiceImpl: MatchService {
+class DefaultMatchService: MatchService {
     
     private var cancellables: [AnyCancellable] = []
     
-    func getEvents(queryTag: String) -> AnyPublisher<[MatchEvent], XanaduError> {
+    func getMatchEvents(queryTag: String) -> AnyPublisher<[MatchEvent], XanaduError> {
         let urlQueryParameters = [
             URLQueryItem(name: "language", value: "en"),
             URLQueryItem(name: "currency", value: "EUR"),

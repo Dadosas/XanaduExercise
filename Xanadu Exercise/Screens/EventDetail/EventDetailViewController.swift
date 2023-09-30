@@ -51,6 +51,7 @@ class EventDetailViewController: UIViewController {
         tableView.dataSource = dataSource
         
         viewModel.publishEventDetailState()
+            .receive(on: DispatchQueue.main)
             .sink { [weak self] eventDetailState in
                 guard let this = self else { return }
                 switch eventDetailState {

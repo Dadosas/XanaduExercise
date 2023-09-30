@@ -10,7 +10,7 @@ import Foundation
 class NavigationItem {
     
     let name: String
-    private let urlTag: String
+    let urlTag: String
     private let children: [NavigationItem]
     private weak var parent: NavigationItem?
     
@@ -46,7 +46,13 @@ class NavigationItem {
         return getUrlTags().count
     }
     
-    func isAccessibleEvent() -> Bool {
+    func isNavigableTo() -> Bool {
         return children.isEmpty
+    }
+}
+
+extension NavigationItem: Equatable {
+    static func == (lhs: NavigationItem, rhs: NavigationItem) -> Bool {
+        return lhs.name == rhs.name && lhs.urlTag == rhs.urlTag
     }
 }

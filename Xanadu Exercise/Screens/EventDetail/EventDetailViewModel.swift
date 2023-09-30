@@ -29,42 +29,49 @@ enum EventDetailRow {
                 layOddsLabel: String)
 }
 
-class EventDetailViewModelImpl: EventDetailViewModel {
+class DefaultEventDetailViewModel: EventDetailViewModel {
     
     let navigationItem: NavigationItem
-    private let matchService: MatchService
+    private let matchRepository: MatchRepository
     
     private let eventDetailState: CurrentValueSubject<EventDetailState, Never> = .init(.loading)
     private var cancellables: [AnyCancellable] = []
     
-    init(navigationItem: NavigationItem, matchService: MatchService) {
+    init(navigationItem: NavigationItem, matchRepository: MatchRepository) {
         self.navigationItem = navigationItem
-        self.matchService = matchService
-        requestDataFromREST()
+        self.matchRepository = matchRepository
         
-        Timer.TimerPublisher(interval: 5, runLoop: RunLoop.main, mode: .default)
-            .autoconnect()
-            .sink { [weak self] _ in
-                print("Polling time!")
-                self?.requestDataFromREST()
-            }
-            .store(in: &cancellables)
+        let matchQueryIdentifier = MatchQueryIdentifier(currentTag: navigationItem.urlTag, fullTag: navigationItem.getUrlTagsForQuery())
+        matchRepository.set(matchQueryIdentifier: matchQueryIdentifier)
+        subscribeToRepository()
+        matchRepository.requestMatchEventsResult()
+        
+        startPolling()
     }
     
     convenience init(navigationItem: NavigationItem, appDependencies: AppDependencies) {
-        self.init(navigationItem: navigationItem, matchService: appDependencies.matchService)
+        self.init(navigationItem: navigationItem, matchRepository: appDependencies.matchRepository)
     }
     
-    private func requestDataFromREST() {
-        matchService
-            .getEvents(queryTag: navigationItem.getUrlTagsForQuery())
-            .subscribe(on: DispatchQueue.global(qos: .userInitiated))
-            .map { (matchEvents) in
-                let sortedEvents = matchEvents.sorted { lhs, rhs in lhs.startDate < rhs.startDate }
-                let rows = sortedEvents.getRows()
-                return EventDetailState.loaded(rows: rows)
+    deinit {
+        matchRepository.set(matchQueryIdentifier: nil)
+    }
+    
+    private func subscribeToRepository() {
+        matchRepository.publishMatchEventsResult()
+            .map { (matchEventsResult) in
+                switch matchEventsResult {
+                case .success(let matchEvents):
+                    guard let matchEvents = matchEvents else {
+                        return EventDetailState.loading
+                    }
+                    let sortedEvents = matchEvents.sorted { lhs, rhs in lhs.startDate < rhs.startDate }
+                    let rows = sortedEvents.getRows()
+                    return EventDetailState.loaded(rows: rows)
+                case .failure:
+                    return EventDetailState.error
+                }
             }
-            .replaceError(with: EventDetailState.error)
             .receive(on: DispatchQueue.main)
             .sink { [weak eventDetailState] in eventDetailState?.send($0) }
             .store(in: &cancellables)
@@ -76,8 +83,24 @@ class EventDetailViewModelImpl: EventDetailViewModel {
     
     func retry() {
         guard case .error = eventDetailState.value else { return }
-        requestDataFromREST()
+        matchRepository.requestMatchEventsResult()
         eventDetailState.send(.loading)
+    }
+    
+    private func startPolling() {
+        Timer.publish(every: 5, on: .main, in: .default)
+            .autoconnect()
+            .sink { [weak self] _ in
+                guard let this = self else { return }
+                switch this.eventDetailState.value {
+                case .loaded:
+                    print("Polling time!")
+                    this.matchRepository.requestMatchEventsResult()
+                default:
+                    break
+                }
+            }
+            .store(in: &cancellables)
     }
 }
 

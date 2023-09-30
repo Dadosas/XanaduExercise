@@ -1,5 +1,5 @@
 //
-//  NavigationRepositoryImpl.swift
+//  DefaultNavigationRepository.swift
 //  Xanadu Exercise
 //
 //  Created by Davide Dallan on 23/09/23.
@@ -8,7 +8,7 @@
 import Foundation
 import Combine
 
-class NavigationRepositoryImpl: NavigationRepository {
+class DefaultNavigationRepository: NavigationRepository {
     
     typealias NavigationResult = Result<[NavigationItem]?, XanaduError>
     
@@ -28,8 +28,7 @@ class NavigationRepositoryImpl: NavigationRepository {
     
     func requestNavigationItemsResult() {
         navigationService
-            .getNavigationTree()
-            .subscribe(on: DispatchQueue.global(qos: .userInitiated))
+            .getNavigationItems()
             .map({ navigationItems -> NavigationResult in .success(navigationItems) })
             .replaceError(with: .failure(.restError))
             .sink { [weak navigationItemsResult] result in navigationItemsResult?.send(result) }

@@ -9,4 +9,5 @@ import Foundation
 
 enum XanaduError: Error {
     case restError
+    case invalidParameters
 }

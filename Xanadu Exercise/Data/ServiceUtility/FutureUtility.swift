@@ -15,6 +15,7 @@ extension Future {
                 return promise(.failure(XanaduError.restError))
             }
             let publisher = URLSession.shared.dataTaskPublisher(for: urlRequest)
+                .subscribe(on: DispatchQueue.global(qos: .userInitiated))
                 .tryMap { (data, response) -> Data in
                     guard let httpResponse = response as? HTTPURLResponse, 200...299 ~= httpResponse.statusCode else {
                         throw XanaduError.restError

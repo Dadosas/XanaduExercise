@@ -111,7 +111,7 @@ class MockMatchService: MatchService {
 }
 """
     
-    func getEvents(queryTag: String) -> AnyPublisher<[MatchEvent], XanaduError> {
+    func getMatchEvents(queryTag: String) -> AnyPublisher<[MatchEvent], XanaduError> {
         return Future { [weak self] promise in
             DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(500)) {
                 guard
@@ -124,6 +124,7 @@ class MockMatchService: MatchService {
                 promise(.success(matchEvents))
             }
         }
+        .subscribe(on: DispatchQueue.global(qos: .userInitiated))
         .eraseToAnyPublisher()
     }
 }

@@ -21,13 +21,15 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         AppDelegate.instance = self
         
-        let navigationServiceImpl: NavigationService = NavigationServiceImpl()
-        let navigationRepository: NavigationRepository = NavigationRepositoryImpl(navigationService: navigationServiceImpl)
+        let navigationServiceImpl: NavigationService = DefaultNavigationService()
+        let navigationRepository: NavigationRepository = DefaultNavigationRepository(navigationService: navigationServiceImpl)
         
-        let matchService: MatchService = MatchServiceImpl()
+        let matchService: MatchService = DefaultMatchService()
+        let socket: Socket = MockSocket()
+        let matchRepository: MatchRepository = DefaultMatchRepository(matchService: matchService, socket: socket)
         
-        appDependencies = AppDependenciesImpl(navigationRepository: navigationRepository,
-                                              matchService: matchService)
+        appDependencies = DefaultAppDependencies(navigationRepository: navigationRepository,
+                                              matchRepository: matchRepository)
         return true
     }
 
@@ -40,10 +42,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
 protocol AppDependencies {
     var navigationRepository: NavigationRepository { get }
-    var matchService: MatchService { get }
+    var matchRepository: MatchRepository { get }
 }
 
-struct AppDependenciesImpl: AppDependencies {
+struct DefaultAppDependencies: AppDependencies {
     let navigationRepository: NavigationRepository
-    let matchService: MatchService
+    let matchRepository: MatchRepository
 }

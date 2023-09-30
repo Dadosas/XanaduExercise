@@ -58,6 +58,7 @@ class NavigationDrawerViewController: UIViewController {
         tableView.dataSource = dataSource
         
         viewModel.publishNavigationDrawerState()
+            .receive(on: DispatchQueue.main)
             .sink { [weak self] state in
                 guard let this = self else { return }
                 switch state {

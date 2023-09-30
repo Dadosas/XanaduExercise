@@ -9,7 +9,7 @@ import XCTest
 import Combine
 @testable import Xanadu_Exercise
 
-final class NavigationRepositoryImplTest: XCTestCase {
+final class DefaultNavigationRepositoryTest: XCTestCase {
 
     private var cancellables: Set<AnyCancellable>!
     
@@ -20,16 +20,16 @@ final class NavigationRepositoryImplTest: XCTestCase {
     func testSuccess() throws {
         let items = [NavigationItem(name: "name", tag: "tag", children: [])]
         let giveBackService = MockTestNavigationService(items: items)
-        let navigationRepositoryImpl = NavigationRepositoryImpl(navigationService: giveBackService)
+        let defaultNavigationRepository = DefaultNavigationRepository(navigationService: giveBackService)
         
         var isExpectedItemsFound = false
         let expectation = self.expectation(description: "NavigationRepository exposes parsingFailure RESTError")
         
-        navigationRepositoryImpl.publishNavigationItemsResult()
+        defaultNavigationRepository.publishNavigationItemsResult()
             .sink(receiveValue: { result in
                 switch result {
-                case .success(let items):
-                    if items?.isEmpty == false {
+                case .success(let resultItems):
+                    if items == resultItems {
                         isExpectedItemsFound = true
                         expectation.fulfill()
                     }
@@ -45,12 +45,12 @@ final class NavigationRepositoryImplTest: XCTestCase {
     
     func testFailure() throws {
         let failureService: NavigationService = FailureTestNavigationService()
-        let navigationRepositoryImpl = NavigationRepositoryImpl(navigationService: failureService)
+        let defaultNavigationRepository = DefaultNavigationRepository(navigationService: failureService)
         
         var isExpectedErrorFound = false
         let expectation = self.expectation(description: "NavigationRepository exposes parsingFailure RESTError")
         
-        navigationRepositoryImpl.publishNavigationItemsResult()
+        defaultNavigationRepository.publishNavigationItemsResult()
             .sink(receiveValue: { result in
                 switch result {
                 case .success:
@@ -71,7 +71,7 @@ private struct MockTestNavigationService: NavigationService {
     
     let items: [NavigationItem]
     
-    func getNavigationTree() -> AnyPublisher<[NavigationItem], XanaduError> {
+    func getNavigationItems() -> AnyPublisher<[NavigationItem], XanaduError> {
         return Future<[NavigationItem], XanaduError> { promise in
             promise(.success(items))
         }.eraseToAnyPublisher()
@@ -79,8 +79,7 @@ private struct MockTestNavigationService: NavigationService {
 }
 
 private struct FailureTestNavigationService: NavigationService {
-    
-    func getNavigationTree() -> AnyPublisher<[NavigationItem], XanaduError> {
+    func getNavigationItems() -> AnyPublisher<[NavigationItem], XanaduError> {
         return Future<[NavigationItem], XanaduError> { promise in
             promise(.failure(XanaduError.restError))
         }.eraseToAnyPublisher()

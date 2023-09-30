@@ -7,17 +7,22 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		6B6DA2B02AC879DE00094754 /* NavigationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BC5BBA22ABEEF780075D7C7 /* NavigationService.swift */; };
 		6B88EA452ABEE3B700FA671D /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B88EA442ABEE3B700FA671D /* AppDelegate.swift */; };
 		6B88EA472ABEE3B700FA671D /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B88EA462ABEE3B700FA671D /* SceneDelegate.swift */; };
 		6B88EA4C2ABEE3B700FA671D /* Navigation.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 6B88EA4A2ABEE3B700FA671D /* Navigation.storyboard */; };
 		6B88EA4E2ABEE3B800FA671D /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 6B88EA4D2ABEE3B800FA671D /* Assets.xcassets */; };
 		6B88EA512ABEE3B800FA671D /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 6B88EA4F2ABEE3B800FA671D /* LaunchScreen.storyboard */; };
-		6B88EA5C2ABEE3B800FA671D /* NavigationRepositoryImplTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B88EA5B2ABEE3B800FA671D /* NavigationRepositoryImplTest.swift */; };
+		6B88EA5C2ABEE3B800FA671D /* DefaultNavigationRepositoryTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B88EA5B2ABEE3B800FA671D /* DefaultNavigationRepositoryTest.swift */; };
 		6B88EA662ABEE3B800FA671D /* Xanadu_ExerciseUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B88EA652ABEE3B800FA671D /* Xanadu_ExerciseUITests.swift */; };
 		6B88EA682ABEE3B800FA671D /* Xanadu_ExerciseUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B88EA672ABEE3B800FA671D /* Xanadu_ExerciseUITestsLaunchTests.swift */; };
 		6B88EA752ABEE58200FA671D /* WelcomeViewController.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 6B88EA742ABEE58200FA671D /* WelcomeViewController.storyboard */; };
 		6B88EA7D2ABEE63500FA671D /* NavigationRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B88EA7C2ABEE63500FA671D /* NavigationRepository.swift */; };
-		6B88EA7F2ABEEA4800FA671D /* NavigationRepositoryImpl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B88EA7E2ABEEA4800FA671D /* NavigationRepositoryImpl.swift */; };
+		6B88EA7F2ABEEA4800FA671D /* DefaultNavigationRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B88EA7E2ABEEA4800FA671D /* DefaultNavigationRepository.swift */; };
+		6BABAFEB2AC81C3200FF23D5 /* MatchRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BABAFEA2AC81C3200FF23D5 /* MatchRepository.swift */; };
+		6BABAFEE2AC81D7800FF23D5 /* DefaultMatchRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BABAFED2AC81D7800FF23D5 /* DefaultMatchRepository.swift */; };
+		6BABAFF12AC825CC00FF23D5 /* Socket.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BABAFF02AC825CC00FF23D5 /* Socket.swift */; };
+		6BABAFF32AC82FF800FF23D5 /* MockSocket.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BABAFF22AC82FF800FF23D5 /* MockSocket.swift */; };
 		6BC5BBA32ABEEF780075D7C7 /* NavigationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BC5BBA22ABEEF780075D7C7 /* NavigationService.swift */; };
 		6BC5BBA82ABEF00D0075D7C7 /* NavigationDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BC5BBA72ABEF00D0075D7C7 /* NavigationDTO.swift */; };
 		6BC5BBAA2ABEF92A0075D7C7 /* WelcomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BC5BBA92ABEF92A0075D7C7 /* WelcomeViewController.swift */; };
@@ -44,8 +49,8 @@
 		6BC5BBE82ABFBFBD0075D7C7 /* MarketRowTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6BC5BBE62ABFBFBD0075D7C7 /* MarketRowTableViewCell.xib */; };
 		6BC5BBEB2ABFBFCA0075D7C7 /* RunnerRowTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BC5BBE92ABFBFCA0075D7C7 /* RunnerRowTableViewCell.swift */; };
 		6BC5BBEC2ABFBFCA0075D7C7 /* RunnerRowTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6BC5BBEA2ABFBFCA0075D7C7 /* RunnerRowTableViewCell.xib */; };
-		6BC5BBEE2ABFC7930075D7C7 /* NavigationServiceImpl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BC5BBED2ABFC7930075D7C7 /* NavigationServiceImpl.swift */; };
-		6BC5BBF02AC05F890075D7C7 /* MatchServiceImpl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BC5BBEF2AC05F890075D7C7 /* MatchServiceImpl.swift */; };
+		6BC5BBEE2ABFC7930075D7C7 /* DefaultNavigationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BC5BBED2ABFC7930075D7C7 /* DefaultNavigationService.swift */; };
+		6BC5BBF02AC05F890075D7C7 /* DefaultMatchService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BC5BBEF2AC05F890075D7C7 /* DefaultMatchService.swift */; };
 		6BC5BBF52AC060D30075D7C7 /* FutureUtility.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BC5BBF42AC060D30075D7C7 /* FutureUtility.swift */; };
 		6BC5BBF72AC062270075D7C7 /* URLUtility.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BC5BBF62AC062270075D7C7 /* URLUtility.swift */; };
 		6BC5BBFB2AC070470075D7C7 /* XanaduNavigationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BC5BBFA2AC070470075D7C7 /* XanaduNavigationViewController.swift */; };
@@ -57,8 +62,7 @@
 		6BC5BC072AC079290075D7C7 /* MatchEvent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BC5BBCF2ABFA8600075D7C7 /* MatchEvent.swift */; };
 		6BC5BC082AC0792C0075D7C7 /* MatchMarket.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BC5BBD12ABFA8B50075D7C7 /* MatchMarket.swift */; };
 		6BC5BC092AC079360075D7C7 /* MatchRunner.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BC5BBD32ABFA8E30075D7C7 /* MatchRunner.swift */; };
-		6BC5BC0B2AC0EF680075D7C7 /* NavigationRepositoryImpl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B88EA7E2ABEEA4800FA671D /* NavigationRepositoryImpl.swift */; };
-		6BC5BC0C2AC0EF730075D7C7 /* NavigationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BC5BBA22ABEEF780075D7C7 /* NavigationService.swift */; };
+		6BC5BC0B2AC0EF680075D7C7 /* DefaultNavigationRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B88EA7E2ABEEA4800FA671D /* DefaultNavigationRepository.swift */; };
 		6BC5BC0F2AC0F7960075D7C7 /* XanaduError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BC5BBDE2ABFAC790075D7C7 /* XanaduError.swift */; };
 		6BC5BC122AC0FDAB0075D7C7 /* LoadingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BC5BC112AC0FDAB0075D7C7 /* LoadingView.swift */; };
 		6BC5BC142AC0FDCD0075D7C7 /* LoadingView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6BC5BC132AC0FDCD0075D7C7 /* LoadingView.xib */; };
@@ -92,13 +96,17 @@
 		6B88EA502ABEE3B800FA671D /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		6B88EA522ABEE3B800FA671D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		6B88EA572ABEE3B800FA671D /* Xanadu ExerciseTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Xanadu ExerciseTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
-		6B88EA5B2ABEE3B800FA671D /* NavigationRepositoryImplTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigationRepositoryImplTest.swift; sourceTree = "<group>"; };
+		6B88EA5B2ABEE3B800FA671D /* DefaultNavigationRepositoryTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultNavigationRepositoryTest.swift; sourceTree = "<group>"; };
 		6B88EA612ABEE3B800FA671D /* Xanadu ExerciseUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Xanadu ExerciseUITests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		6B88EA652ABEE3B800FA671D /* Xanadu_ExerciseUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Xanadu_ExerciseUITests.swift; sourceTree = "<group>"; };
 		6B88EA672ABEE3B800FA671D /* Xanadu_ExerciseUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Xanadu_ExerciseUITestsLaunchTests.swift; sourceTree = "<group>"; };
 		6B88EA742ABEE58200FA671D /* WelcomeViewController.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = WelcomeViewController.storyboard; sourceTree = "<group>"; };
 		6B88EA7C2ABEE63500FA671D /* NavigationRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigationRepository.swift; sourceTree = "<group>"; };
-		6B88EA7E2ABEEA4800FA671D /* NavigationRepositoryImpl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigationRepositoryImpl.swift; sourceTree = "<group>"; };
+		6B88EA7E2ABEEA4800FA671D /* DefaultNavigationRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultNavigationRepository.swift; sourceTree = "<group>"; };
+		6BABAFEA2AC81C3200FF23D5 /* MatchRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MatchRepository.swift; sourceTree = "<group>"; };
+		6BABAFED2AC81D7800FF23D5 /* DefaultMatchRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultMatchRepository.swift; sourceTree = "<group>"; };
+		6BABAFF02AC825CC00FF23D5 /* Socket.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Socket.swift; sourceTree = "<group>"; };
+		6BABAFF22AC82FF800FF23D5 /* MockSocket.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockSocket.swift; sourceTree = "<group>"; };
 		6BC5BBA22ABEEF780075D7C7 /* NavigationService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigationService.swift; sourceTree = "<group>"; };
 		6BC5BBA72ABEF00D0075D7C7 /* NavigationDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigationDTO.swift; sourceTree = "<group>"; };
 		6BC5BBA92ABEF92A0075D7C7 /* WelcomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WelcomeViewController.swift; sourceTree = "<group>"; };
@@ -125,8 +133,8 @@
 		6BC5BBE62ABFBFBD0075D7C7 /* MarketRowTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MarketRowTableViewCell.xib; sourceTree = "<group>"; };
 		6BC5BBE92ABFBFCA0075D7C7 /* RunnerRowTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RunnerRowTableViewCell.swift; sourceTree = "<group>"; };
 		6BC5BBEA2ABFBFCA0075D7C7 /* RunnerRowTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = RunnerRowTableViewCell.xib; sourceTree = "<group>"; };
-		6BC5BBED2ABFC7930075D7C7 /* NavigationServiceImpl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigationServiceImpl.swift; sourceTree = "<group>"; };
-		6BC5BBEF2AC05F890075D7C7 /* MatchServiceImpl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MatchServiceImpl.swift; sourceTree = "<group>"; };
+		6BC5BBED2ABFC7930075D7C7 /* DefaultNavigationService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultNavigationService.swift; sourceTree = "<group>"; };
+		6BC5BBEF2AC05F890075D7C7 /* DefaultMatchService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultMatchService.swift; sourceTree = "<group>"; };
 		6BC5BBF42AC060D30075D7C7 /* FutureUtility.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FutureUtility.swift; sourceTree = "<group>"; };
 		6BC5BBF62AC062270075D7C7 /* URLUtility.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLUtility.swift; sourceTree = "<group>"; };
 		6BC5BBFA2AC070470075D7C7 /* XanaduNavigationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XanaduNavigationViewController.swift; sourceTree = "<group>"; };
@@ -203,7 +211,7 @@
 		6B88EA5A2ABEE3B800FA671D /* Xanadu ExerciseTests */ = {
 			isa = PBXGroup;
 			children = (
-				6B88EA5B2ABEE3B800FA671D /* NavigationRepositoryImplTest.swift */,
+				6B88EA5B2ABEE3B800FA671D /* DefaultNavigationRepositoryTest.swift */,
 			);
 			path = "Xanadu ExerciseTests";
 			sourceTree = "<group>";
@@ -262,8 +270,7 @@
 			isa = PBXGroup;
 			children = (
 				6BC5BBDD2ABFAC6E0075D7C7 /* Model */,
-				6BC5BBCB2ABFA7D50075D7C7 /* NavigationService */,
-				6BC5BBCA2ABFA7BC0075D7C7 /* MatchService */,
+				6BABAFE92AC81C0E00FF23D5 /* MatchRepository */,
 				6B88EA7B2ABEE62100FA671D /* NavigationRepository */,
 			);
 			path = Domain;
@@ -282,7 +289,9 @@
 			isa = PBXGroup;
 			children = (
 				6BC5BBF12AC05FD20075D7C7 /* ServiceUtility */,
+				6BABAFEF2AC825B600FF23D5 /* Socket */,
 				6BC5BBD52ABFAA6A0075D7C7 /* MatchService */,
+				6BABAFEC2AC81D3A00FF23D5 /* MatchRepository */,
 				6BC5BBA12ABEEF6F0075D7C7 /* NavigationService */,
 				6B88EA812ABEEA6400FA671D /* NavigationRepository */,
 			);
@@ -292,9 +301,35 @@
 		6B88EA812ABEEA6400FA671D /* NavigationRepository */ = {
 			isa = PBXGroup;
 			children = (
-				6B88EA7E2ABEEA4800FA671D /* NavigationRepositoryImpl.swift */,
+				6B88EA7E2ABEEA4800FA671D /* DefaultNavigationRepository.swift */,
 			);
 			path = NavigationRepository;
+			sourceTree = "<group>";
+		};
+		6BABAFE92AC81C0E00FF23D5 /* MatchRepository */ = {
+			isa = PBXGroup;
+			children = (
+				6BC5BBCE2ABFA84C0075D7C7 /* Model */,
+				6BABAFEA2AC81C3200FF23D5 /* MatchRepository.swift */,
+			);
+			path = MatchRepository;
+			sourceTree = "<group>";
+		};
+		6BABAFEC2AC81D3A00FF23D5 /* MatchRepository */ = {
+			isa = PBXGroup;
+			children = (
+				6BABAFED2AC81D7800FF23D5 /* DefaultMatchRepository.swift */,
+			);
+			path = MatchRepository;
+			sourceTree = "<group>";
+		};
+		6BABAFEF2AC825B600FF23D5 /* Socket */ = {
+			isa = PBXGroup;
+			children = (
+				6BABAFF02AC825CC00FF23D5 /* Socket.swift */,
+				6BABAFF22AC82FF800FF23D5 /* MockSocket.swift */,
+			);
+			path = Socket;
 			sourceTree = "<group>";
 		};
 		6BC5BBA12ABEEF6F0075D7C7 /* NavigationService */ = {
@@ -303,7 +338,8 @@
 				6BC5BC002AC078F90075D7C7 /* Mapping */,
 				6BC5BBA42ABEEFFC0075D7C7 /* DTO */,
 				6BC5BBB12ABF0A8C0075D7C7 /* MockNavigationService.swift */,
-				6BC5BBED2ABFC7930075D7C7 /* NavigationServiceImpl.swift */,
+				6BC5BBA22ABEEF780075D7C7 /* NavigationService.swift */,
+				6BC5BBED2ABFC7930075D7C7 /* DefaultNavigationService.swift */,
 			);
 			path = NavigationService;
 			sourceTree = "<group>";
@@ -344,23 +380,6 @@
 			path = Model;
 			sourceTree = "<group>";
 		};
-		6BC5BBCA2ABFA7BC0075D7C7 /* MatchService */ = {
-			isa = PBXGroup;
-			children = (
-				6BC5BBCE2ABFA84C0075D7C7 /* Model */,
-				6BC5BBCC2ABFA7E40075D7C7 /* MatchService.swift */,
-			);
-			path = MatchService;
-			sourceTree = "<group>";
-		};
-		6BC5BBCB2ABFA7D50075D7C7 /* NavigationService */ = {
-			isa = PBXGroup;
-			children = (
-				6BC5BBA22ABEEF780075D7C7 /* NavigationService.swift */,
-			);
-			path = NavigationService;
-			sourceTree = "<group>";
-		};
 		6BC5BBCE2ABFA84C0075D7C7 /* Model */ = {
 			isa = PBXGroup;
 			children = (
@@ -377,7 +396,8 @@
 				6BC5BC042AC079110075D7C7 /* Mapping */,
 				6BC5BBD62ABFAA710075D7C7 /* DTO */,
 				6BC5BBDB2ABFAAC40075D7C7 /* MockMatchService.swift */,
-				6BC5BBEF2AC05F890075D7C7 /* MatchServiceImpl.swift */,
+				6BC5BBCC2ABFA7E40075D7C7 /* MatchService.swift */,
+				6BC5BBEF2AC05F890075D7C7 /* DefaultMatchService.swift */,
 			);
 			path = MatchService;
 			sourceTree = "<group>";
@@ -593,9 +613,10 @@
 				6BC5BBA32ABEEF780075D7C7 /* NavigationService.swift in Sources */,
 				6BC5BBFB2AC070470075D7C7 /* XanaduNavigationViewController.swift in Sources */,
 				6BC5BBA82ABEF00D0075D7C7 /* NavigationDTO.swift in Sources */,
+				6BABAFEE2AC81D7800FF23D5 /* DefaultMatchRepository.swift in Sources */,
 				6BC5BBD02ABFA8600075D7C7 /* MatchEvent.swift in Sources */,
 				6BC5BBDF2ABFAC790075D7C7 /* XanaduError.swift in Sources */,
-				6BC5BBF02AC05F890075D7C7 /* MatchServiceImpl.swift in Sources */,
+				6BC5BBF02AC05F890075D7C7 /* DefaultMatchService.swift in Sources */,
 				6BC5BBB62ABF49310075D7C7 /* NavigationDrawerTableViewCell.swift in Sources */,
 				6BC5BBBE2ABF9E3C0075D7C7 /* EventDetailViewModel.swift in Sources */,
 				6BC5BBE72ABFBFBD0075D7C7 /* MarketRowTableViewCell.swift in Sources */,
@@ -603,14 +624,16 @@
 				6BC5BC122AC0FDAB0075D7C7 /* LoadingView.swift in Sources */,
 				6BC5BBAE2ABEFA1B0075D7C7 /* NavigationDrawerViewController.swift in Sources */,
 				6BC5BBF52AC060D30075D7C7 /* FutureUtility.swift in Sources */,
-				6B88EA7F2ABEEA4800FA671D /* NavigationRepositoryImpl.swift in Sources */,
+				6B88EA7F2ABEEA4800FA671D /* DefaultNavigationRepository.swift in Sources */,
 				6BC5BBE32ABFBEDA0075D7C7 /* EventRowTableViewCell.swift in Sources */,
-				6BC5BBEE2ABFC7930075D7C7 /* NavigationServiceImpl.swift in Sources */,
+				6BC5BBEE2ABFC7930075D7C7 /* DefaultNavigationService.swift in Sources */,
 				6BC5BC022AC079020075D7C7 /* NavigationItemMapping.swift in Sources */,
 				6BC5BC182AC101B60075D7C7 /* ErrorView.swift in Sources */,
 				6BC5BBDC2ABFAAC40075D7C7 /* MockMatchService.swift in Sources */,
+				6BABAFF32AC82FF800FF23D5 /* MockSocket.swift in Sources */,
 				6BC5BBBC2ABF9DCF0075D7C7 /* EventDetailViewController.swift in Sources */,
 				6B88EA7D2ABEE63500FA671D /* NavigationRepository.swift in Sources */,
+				6BABAFEB2AC81C3200FF23D5 /* MatchRepository.swift in Sources */,
 				6BC5BBB02ABF08D60075D7C7 /* NavigationDrawerViewModel.swift in Sources */,
 				6BC5BBCD2ABFA7E40075D7C7 /* MatchService.swift in Sources */,
 				6BC5BBB22ABF0A8C0075D7C7 /* MockNavigationService.swift in Sources */,
@@ -619,6 +642,7 @@
 				6BC5BBEB2ABFBFCA0075D7C7 /* RunnerRowTableViewCell.swift in Sources */,
 				6B88EA452ABEE3B700FA671D /* AppDelegate.swift in Sources */,
 				6BC5BBC12ABF9E840075D7C7 /* NavigationItem.swift in Sources */,
+				6BABAFF12AC825CC00FF23D5 /* Socket.swift in Sources */,
 				6B88EA472ABEE3B700FA671D /* SceneDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -628,11 +652,11 @@
 			buildActionMask = 2147483647;
 			files = (
 				6BC5BC082AC0792C0075D7C7 /* MatchMarket.swift in Sources */,
-				6BC5BC0C2AC0EF730075D7C7 /* NavigationService.swift in Sources */,
+				6B6DA2B02AC879DE00094754 /* NavigationService.swift in Sources */,
 				6BC5BC032AC079090075D7C7 /* NavigationItem.swift in Sources */,
 				6BC5BC0F2AC0F7960075D7C7 /* XanaduError.swift in Sources */,
-				6B88EA5C2ABEE3B800FA671D /* NavigationRepositoryImplTest.swift in Sources */,
-				6BC5BC0B2AC0EF680075D7C7 /* NavigationRepositoryImpl.swift in Sources */,
+				6B88EA5C2ABEE3B800FA671D /* DefaultNavigationRepositoryTest.swift in Sources */,
+				6BC5BC0B2AC0EF680075D7C7 /* DefaultNavigationRepository.swift in Sources */,
 				6BC5BC092AC079360075D7C7 /* MatchRunner.swift in Sources */,
 				6BC5BC072AC079290075D7C7 /* MatchEvent.swift in Sources */,
 				6BC5BBFE2AC073A90075D7C7 /* NavigationRepository.swift in Sources */,

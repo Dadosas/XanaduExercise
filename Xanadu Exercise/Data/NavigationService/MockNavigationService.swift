@@ -83,7 +83,7 @@ class MockNavigationService: NavigationService {
 ]
 """
     
-    func getNavigationTree() -> AnyPublisher<[NavigationItem], XanaduError> {
+    func getNavigationItems() -> AnyPublisher<[NavigationItem], XanaduError> {
         return Future { [weak self] promise in
             guard var mockNavigationJSON = self?.mockNavigationJSON else {
                 return promise(.failure(XanaduError.restError))
@@ -93,7 +93,7 @@ class MockNavigationService: NavigationService {
                 mockNavigationJSON.insert(";", at: String.Index(utf16Offset: 123, in: mockNavigationJSON))
             }
             print("Start timer")
-            DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(5000)) {
+            DispatchQueue.global(qos: .userInitiated).asyncAfter(deadline: .now() + .milliseconds(5000)) {
                 guard
                     let data = mockNavigationJSON.data(using: .utf8),
                     let mockNavigationDTO = try? JSONDecoder().decode(NavigationDTO.self, from: data),

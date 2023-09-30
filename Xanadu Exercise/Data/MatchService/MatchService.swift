@@ -9,5 +9,5 @@ import Foundation
 import Combine
 
 protocol MatchService {
-    func getEvents(queryTag: String) -> AnyPublisher<[MatchEvent], XanaduError>
+    func getMatchEvents(queryTag: String) -> AnyPublisher<[MatchEvent], XanaduError>
 }
